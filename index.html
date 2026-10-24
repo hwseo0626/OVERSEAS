@@ -3,388 +3,621 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>해외물류 패킹 라벨 가이드</title>
+  <title>해외 B2B 고객사별 스티커 부착 가이드</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- SheetJS (xlsx) CDN -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <!-- Lucide Icons -->
+  <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     @keyframes pulse-border {
       0%, 100% { border-color: #ef4444; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
       50% { border-color: #f87171; box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
     }
-    .label-target-box { animation: pulse-border 1.8s infinite; }
+    .label-target-box {
+      animation: pulse-border 1.8s infinite;
+    }
   </style>
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans">
+<body class="bg-slate-900 text-slate-800 min-h-screen flex flex-col font-sans">
 
-  <!-- Header -->
-  <header class="bg-slate-900 text-white shadow-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-3">
-      <div class="flex items-center gap-3">
-        <div class="bg-blue-600 p-2 rounded-lg text-white">
-          <i data-lucide="package-check" class="w-6 h-6"></i>
+  <!-- Top Dark Header (첨부 이미지 헤더 디자인 완벽 구현) -->
+  <header class="bg-slate-900 text-white border-b border-slate-800 px-6 py-4">
+    <div class="max-w-[1480px] mx-auto flex flex-wrap justify-between items-center gap-4">
+      <!-- Title & Subtitle -->
+      <div class="flex items-center gap-3.5">
+        <div class="bg-blue-600 w-11 h-11 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-600/30">
+          <i data-lucide="sparkles" class="w-6 h-6"></i>
         </div>
         <div>
-          <h1 class="text-base md:text-lg font-bold tracking-tight">해외물류 라벨 스티커 부착 가이드</h1>
-          <p class="text-xs text-slate-400">고객사별 라벨 규격 및 부착 위치 실시간 안내</p>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl font-bold tracking-tight">해외 B2B 고객사별 스티커 부착 가이드</h1>
+            <span class="bg-slate-800 text-slate-300 text-[11px] font-semibold px-2 py-0.5 rounded border border-slate-700">표준 SOP</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-0.5">수출 패킹 시 고객사별 지정 라벨 규격 및 부착 위치 실시간 안내 시스템</p>
         </div>
       </div>
 
-      <div class="flex items-center gap-2">
-        <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-800 border border-slate-700 text-slate-300">
-          가이드 <span id="guideCount" class="text-white">0</span>건
-        </span>
-        <label class="cursor-pointer bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition">
-          <i data-lucide="file-up" class="w-4 h-4"></i>
+      <!-- Header Action Buttons -->
+      <div class="flex items-center gap-2.5">
+        <button onclick="alert('구글 드라이브 연동 안내: 사내 구글 워크스페이스 계정 연동 준비 중입니다.')" class="bg-white hover:bg-slate-100 text-slate-800 px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition shadow-sm">
+          <svg class="w-4 h-4" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          <span>Google 로그인 (Drive 연동)</span>
+        </button>
+
+        <button onclick="installAppGuide()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
+          <i data-lucide="smartphone" class="w-4 h-4"></i>
+          <span>앱으로 설치</span>
+        </button>
+
+        <button onclick="downloadSampleTemplate()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
+          <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-400"></i>
+          <span>양식 다운</span>
+        </button>
+
+        <label class="cursor-pointer bg-blue-600 hover:bg-blue-500 text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition shadow-sm">
+          <i data-lucide="upload" class="w-4 h-4"></i>
           <span>엑셀 업로드</span>
-          <input type="file" id="excelFileInput" accept=".xlsx, .xls" class="hidden">
+          <input type="file" id="excelUploadInput" accept=".xlsx, .xls" class="hidden">
         </label>
-        <button onclick="resetToDefaultData()" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800" title="기본값 초기화">
+
+        <button onclick="resetDefaultGuides()" class="p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800 transition" title="기본값으로 되돌리기">
           <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Main View -->
-  <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-6">
-    <div class="lg:col-span-8 space-y-6">
+  <!-- Body Content Container -->
+  <main class="flex-1 bg-slate-100 p-6">
+    <div class="max-w-[1480px] mx-auto">
       
-      <!-- Search Panel -->
-      <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
-          <div class="md:col-span-4">
-            <label class="block text-xs font-semibold text-slate-500 mb-1">고객사 직접 선택</label>
-            <div class="relative">
-              <select id="buyerSelect" onchange="onBuyerSelectChange()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none appearance-none">
-                <option value="">고객사 전체 (바코드 매핑)</option>
-              </select>
-              <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 absolute right-3 top-3 pointer-events-none"></i>
+      <!-- Table Card Section (첨부 이미지 완벽 재현) -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        
+        <!-- Table Top Control Bar -->
+        <div class="p-6 border-b border-slate-100 flex flex-wrap justify-between items-center gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="table" class="w-5 h-5 text-emerald-600"></i>
+              <h2 class="text-base font-bold text-slate-900">고객사별 라벨 부착 규격 전체 엑셀표</h2>
             </div>
+            <p class="text-xs text-slate-400 mt-1">행을 클릭하면 해당 고객사의 시각적 튜토리얼 화면으로 이동합니다.</p>
           </div>
 
-          <div class="md:col-span-8">
-            <label class="block text-xs font-semibold text-slate-500 mb-1">제품 바코드 또는 SKU 스캔 (Enter)</label>
-            <div class="flex gap-2">
-              <div class="relative flex-1">
-                <i data-lucide="scan-barcode" class="w-5 h-5 text-slate-400 absolute left-3.5 top-3"></i>
-                <input type="text" id="barcodeInput" autofocus placeholder="바코드를 스캔하세요 (예: 8801234567890)" 
-                  class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-11 pr-4 py-2.5 text-base font-bold text-slate-900 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-              </div>
-              <button onclick="handleSearch()" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition">
-                조회
-              </button>
+          <div class="flex items-center gap-3">
+            <div class="relative w-72">
+              <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
+              <input type="text" id="tableSearchInput" onkeyup="filterGuides()" placeholder="고객사, 규격, 특이사항 검색"
+                class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition">
             </div>
+
+            <button onclick="exportCurrentTableToExcel()" class="bg-emerald-700 hover:bg-emerald-600 text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition shadow-sm">
+              <i data-lucide="download" class="w-4 h-4"></i>
+              <span>엑셀 다운로드</span>
+            </button>
           </div>
         </div>
-      </section>
 
-      <!-- Guide Display -->
-      <section id="guideDisplayCard" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-        <div id="emptyState" class="py-16 text-center space-y-2">
-          <i data-lucide="barcode" class="w-10 h-10 text-slate-300 mx-auto"></i>
-          <h3 class="text-sm font-bold text-slate-600">바코드를 스캔하거나 상단 고객사를 선택하세요</h3>
+        <!-- Table View -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-slate-200 bg-slate-50/70 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
+                <th class="py-3.5 px-4 text-center w-12">NO</th>
+                <th class="py-3.5 px-4 w-32">고객사 명</th>
+                <th class="py-3.5 px-4 w-32">부착 위치</th>
+                <th class="py-3.5 px-4 w-44">부착 방식 (바코드 처리)</th>
+                <th class="py-3.5 px-4 w-60">스티커 출력 방식</th>
+                <th class="py-3.5 px-4 text-center w-28">규격</th>
+                <th class="py-3.5 px-4">특이사항 및 작업 주의점</th>
+                <th class="py-3.5 px-4 text-center w-24">실물 사진</th>
+                <th class="py-3.5 px-4 text-center w-28">가이드 보기</th>
+              </tr>
+            </thead>
+            <tbody id="guideTableBody" class="divide-y divide-slate-100 font-medium text-slate-700">
+              <!-- JS Injected Rows -->
+            </tbody>
+          </table>
         </div>
 
-        <div id="guideContent" class="hidden space-y-6">
-          <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-100">
-            <div>
-              <div class="flex items-center gap-2">
-                <span id="resBuyerBadge" class="px-2.5 py-1 rounded-md text-xs font-black bg-blue-100 text-blue-800">고객사</span>
-                <span id="resPrintBadge" class="px-2.5 py-1 rounded-md text-xs font-bold bg-purple-100 text-purple-900 border border-purple-300">규격</span>
-              </div>
-              <h2 id="resItemName" class="text-lg md:text-xl font-black text-slate-900 mt-1">제품명</h2>
-              <p id="resBarcodeSub" class="text-xs text-slate-400 font-mono">Barcode: -</p>
-            </div>
-            <div id="resSideBadge" class="px-4 py-2 rounded-xl text-sm font-extrabold flex items-center gap-2 shadow-sm bg-indigo-600 text-white">
-              <i data-lucide="layers" class="w-4 h-4"></i>
-              <span id="resSideText">패키지 뒤 부착</span>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-            <!-- Box Diagram -->
-            <div class="md:col-span-5 flex flex-col items-center p-4 bg-slate-50 rounded-2xl border border-slate-200">
-              <span class="text-xs font-semibold text-slate-400 mb-2" id="diagramHeader">도식도</span>
-              <div id="packageBox" class="w-44 h-60 bg-white rounded-xl border-2 border-slate-300 shadow-inner relative flex flex-col justify-between p-3">
-                <div class="w-8 h-8 rounded border border-dashed border-slate-300 bg-slate-100 flex items-center justify-center text-[9px] text-slate-400">Top</div>
-                <div id="defaultBarcodeArea" class="w-20 h-7 bg-slate-100 border border-slate-300 rounded self-center flex items-center justify-center text-[9px] text-slate-400">기존바코드</div>
-                <div id="targetStickerBox" class="absolute w-24 h-9 bg-red-100 border-2 border-red-500 rounded-lg label-target-box flex items-center justify-center text-center p-1 shadow-md">
-                  <span id="targetStickerName" class="text-[9px] font-black text-red-700">라벨</span>
-                </div>
-              </div>
-              <span id="diagramSubtext" class="text-[11px] font-bold text-slate-600 mt-2">가이드</span>
-            </div>
-
-            <!-- Details -->
-            <div class="md:col-span-7 space-y-3">
-              <div class="grid grid-cols-2 gap-2 text-xs">
-                <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                  <span class="text-slate-400 block mb-0.5">라벨 출력 규격</span>
-                  <span id="resPrintMethod" class="font-bold text-slate-800">조립처 요청</span>
-                </div>
-                <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                  <span class="text-slate-400 block mb-0.5">바코드 처리 방식</span>
-                  <span id="resBarcodeHandling" class="font-bold text-slate-800">가리지 않음</span>
-                </div>
-              </div>
-
-              <!-- Photo Area -->
-              <div id="imageDisplayArea" class="rounded-xl border p-2.5 flex items-center gap-2.5"></div>
-
-              <!-- Warning Box -->
-              <div id="warningBox" class="p-3 rounded-xl border bg-amber-50 border-amber-200 text-amber-900 flex gap-2 items-start">
-                <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600 shrink-0 mt-0.5"></i>
-                <div>
-                  <h4 class="text-xs font-black text-amber-800">특이사항</h4>
-                  <p id="resWarningText" class="text-xs font-semibold mt-0.5 whitespace-pre-line leading-relaxed">내용</p>
-                </div>
-              </div>
-
-              <button onclick="markComplete()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-md transition">
-                <i data-lucide="check-circle-2" class="w-5 h-5"></i>
-                <span>패킹 확인 완료 (Space / Enter)</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <!-- History Panel -->
-    <div class="lg:col-span-4 space-y-4">
-      <section class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex justify-around text-center">
-        <div>
-          <span class="text-xs font-semibold text-slate-400 block">오늘 완료 수량</span>
-          <span id="completedCount" class="text-2xl font-black text-slate-900">0</span>
-        </div>
-        <div class="w-px bg-slate-200"></div>
-        <div>
-          <span class="text-xs font-semibold text-slate-400 block">직전 작업 고객사</span>
-          <span id="lastBuyerName" class="text-sm font-black text-blue-600 leading-7">-</span>
-        </div>
-      </section>
-
-      <section class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-        <h3 class="text-xs font-bold text-slate-700 mb-2 flex items-center gap-1.5">
-          <i data-lucide="history" class="w-3.5 h-3.5 text-slate-400"></i> 최근 작업 내역
-        </h3>
-        <div id="historyList" class="space-y-2 max-h-80 overflow-y-auto text-xs">
-          <p class="text-slate-400 text-center py-4">내역 없음</p>
-        </div>
-      </section>
+      </div>
     </div>
   </main>
 
-  <!-- Script -->
+  <!-- Detail Guide Modal (가이드 보기 클릭 시 팝업) -->
+  <div id="guideModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[92vh] overflow-hidden flex flex-col border border-slate-200 animate-in fade-in zoom-in duration-200">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <span id="modalBuyerBadge" class="bg-blue-600 text-white font-extrabold text-sm px-3 py-1 rounded-lg">BUYER</span>
+          <div>
+            <h3 id="modalTitle" class="text-base font-bold">고객사별 스티커 부착 상세 가이드</h3>
+            <p id="modalSubtitle" class="text-xs text-slate-400">라벨 규격 및 위치 도식도 확인</p>
+          </div>
+        </div>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 md:p-8 overflow-y-auto space-y-6">
+        
+        <!-- Summary Cards Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+            <span class="text-[11px] font-semibold text-slate-400 block mb-1">부착 위치 면</span>
+            <span id="modalPosBadge" class="text-xs font-bold text-slate-900 inline-flex items-center gap-1">
+              <i data-lucide="layers" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <span id="modalPosText">패키지 뒤</span>
+            </span>
+          </div>
+
+          <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+            <span class="text-[11px] font-semibold text-slate-400 block mb-1">바코드 처리 방식</span>
+            <span id="modalHandlingText" class="text-xs font-bold text-slate-900">바코드 가리지않음</span>
+          </div>
+
+          <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+            <span class="text-[11px] font-semibold text-slate-400 block mb-1">라벨 출력 규격</span>
+            <span id="modalSpecBadge" class="text-xs font-black text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">공통 스티커</span>
+          </div>
+
+          <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+            <span class="text-[11px] font-semibold text-slate-400 block mb-1">실물 사진 상태</span>
+            <span id="modalPhotoStatus" class="text-xs font-bold text-emerald-600">완료</span>
+          </div>
+        </div>
+
+        <!-- Visual Diagram & Guidelines -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+          
+          <!-- Interactive Diagram Box -->
+          <div class="md:col-span-5 bg-slate-50 rounded-2xl p-6 border border-slate-200 flex flex-col items-center justify-center">
+            <span class="text-xs font-bold text-slate-500 mb-3" id="diagramHeader">패키지 도식도</span>
+            
+            <div id="diagramBox" class="w-48 h-64 bg-white rounded-2xl border-2 border-slate-300 shadow-sm relative flex flex-col justify-between p-3.5">
+              <div class="w-10 h-10 rounded-lg border border-dashed border-slate-300 bg-slate-50 flex items-center justify-center text-[10px] text-slate-400">
+                Top
+              </div>
+
+              <div id="diagramBarcodeArea" class="w-24 h-8 bg-slate-100 border border-slate-300 rounded self-center flex items-center justify-center text-[9px] text-slate-400">
+                기존 바코드
+              </div>
+
+              <!-- Animated Target Sticker -->
+              <div id="diagramTargetSticker" class="absolute w-28 h-10 bg-red-100 border-2 border-red-500 rounded-lg label-target-box flex items-center justify-center text-center p-1 shadow-md">
+                <span id="diagramStickerLabel" class="text-[10px] font-black text-red-700 leading-tight">스티커 라벨</span>
+              </div>
+            </div>
+
+            <p id="diagramComment" class="text-xs font-bold text-slate-700 mt-4 text-center">부착 가이드 설명</p>
+          </div>
+
+          <!-- Spec Details & Notes -->
+          <div class="md:col-span-7 space-y-4">
+            
+            <!-- Output Method Box -->
+            <div class="bg-blue-50/60 border border-blue-200 rounded-2xl p-4">
+              <span class="text-xs font-black text-blue-900 block mb-1">스티커 출력 및 수급 방식</span>
+              <p id="modalOutputMethod" class="text-xs text-blue-800 font-semibold whitespace-pre-line leading-relaxed">조립처에 요청</p>
+            </div>
+
+            <!-- Caution Notes Box -->
+            <div id="modalCautionBox" class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-amber-900">
+              <div class="flex items-center gap-2 mb-1.5">
+                <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>
+                <h4 class="text-xs font-black uppercase">특이사항 및 작업 주의점</h4>
+              </div>
+              <p id="modalNotesText" class="text-xs font-semibold whitespace-pre-line leading-relaxed">특이사항</p>
+            </div>
+
+            <!-- Real Photo Card -->
+            <div id="modalPhotoCard" class="rounded-2xl border p-4 flex items-center gap-3 bg-slate-50 border-slate-200">
+              <!-- JS Injected -->
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-end">
+        <button onclick="closeModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition">
+          닫기
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Main JavaScript Data & Interactivity -->
   <script>
-    const DEFAULT_GUIDES = [
-      { buyer: "D-R-O", pos: "패키지 뒤", side: "뒤", handling: "바코드 가리지않음", printMethod: "조립처에 요청", stickerSize: "공통 스티커", hasRealPhoto: true, photoFile: "dro_sample.png", notes: "공통 스티커 부착\n※ 유니버셜 품목은 별도의 품목 스티커 출력 후 부착 필요" },
-      { buyer: "ELEMENT", pos: "패키지 뒤", side: "뒤", handling: "바코드 가리지않음", printMethod: "아이라벨 65 X 44\n(품목별 이미지파일 출력)", stickerSize: "65 X 44", hasRealPhoto: true, photoFile: "element_sample.png", notes: "품목 별 스티커 출력 후 부착\n※ 신규 품목 입고 시 고객사에 이미지 파일 요청 필수" },
-      { buyer: "ROA", pos: "패키지 뒤", side: "뒤", handling: "바코드 가림 (덮어 부착)", printMethod: "아이라벨 45 X 35\n(품목별 데이터파일 출력)", stickerSize: "45 X 35", hasRealPhoto: true, photoFile: "roa_sample.png", notes: "품목 별 스티커 출력 후 부착 (기존 바코드 완벽 가림)\n※ 신규 품목 입고 시 바코드 데이터 요청 필수" },
-      { buyer: "JARIR", pos: "패키지 뒤", side: "뒤", handling: "바코드 가리지않음", printMethod: "조립처에 요청", stickerSize: "공통 스티커", hasRealPhoto: false, photoFile: "", notes: "공통 스티커 부착\n※ 실리콘밴드, 캐링케이스 등 특정 품목은 별도의 스티커 추가 부착 必" },
-      { buyer: "TAICHEONG", pos: "패키지 앞", side: "앞", handling: "해당 없음 (-)", printMethod: "조립처에 요청", stickerSize: "공통 스티커", hasRealPhoto: true, photoFile: "taicheong_sample.png", notes: "공통스티커 부착 (패키지 전면 지정 위치)" }
+    // Master Guide Rules initialized with the exact uploaded Excel data
+    let guideList = [
+      {
+        no: 1,
+        buyer: "D-R-O",
+        pos: "패키지 뒤",
+        handling: "바코드 가리지않음",
+        handlingType: "safe", // safe (green), cover (red), none (gray)
+        outputMethod: "조립처에 요청",
+        spec: "공통 스티커",
+        notes: "공통 스티커 부착\n※ 유니버셜 품목은 별도의 품목 스티커 출력 후 부착 필요",
+        hasPhoto: true,
+        photoFile: "dro_sticker.png"
+      },
+      {
+        no: 2,
+        buyer: "ELEMENT",
+        pos: "패키지 뒤",
+        handling: "바코드 가리지않음",
+        handlingType: "safe",
+        outputMethod: "아이라벨 65 X 44\n(품목별 이미지파일 불러와 출력)",
+        spec: "65 X 44",
+        notes: "품목 별 스티커 출력 후 부착\n※ 신규 품목 입고 시 고객사에 이미지 파일 사전 요청 필수",
+        hasPhoto: true,
+        photoFile: "element_65x44.png"
+      },
+      {
+        no: 3,
+        buyer: "ROA",
+        pos: "패키지 뒤",
+        handling: "바코드 가림 (덮어 부착)",
+        handlingType: "cover",
+        outputMethod: "아이라벨 45 X 35\n(품목별 데이터파일 불러와 출력)",
+        spec: "45 X 35",
+        notes: "품목 별 스티커 출력 후 부착 (기존 바코드 완벽 가림)\n※ 신규 품목 입고 시 고객사에 바코드 데이터 사전 요청 필수",
+        hasPhoto: true,
+        photoFile: "roa_45x35.png"
+      },
+      {
+        no: 4,
+        buyer: "JARIR",
+        pos: "패키지 뒤",
+        handling: "바코드 가리지않음",
+        handlingType: "safe",
+        outputMethod: "조립처에 요청",
+        spec: "공통 스티커",
+        notes: "공통 스티커 부착 (※ 실리콘밴드, 캐링케이스 등 특정 품목은 별도의 스티커 추가 부착 必)\n※ 실물 스티커 사진 촬영 후 추후 시스템 등록 예정",
+        hasPhoto: false, // In accordance with user direction (waiting for photo shoot)
+        photoFile: ""
+      },
+      {
+        no: 5,
+        buyer: "TAICHEONG",
+        pos: "패키지 앞",
+        handling: "해당 없음 (-)",
+        handlingType: "none",
+        outputMethod: "조립처에 요청",
+        spec: "공통 스티커",
+        notes: "공통스티커 부착 (패키지 전면 지정 위치 부착)",
+        hasPhoto: true,
+        photoFile: "taicheong_front.png"
+      }
     ];
-
-    const DEFAULT_ITEMS = [
-      { barcode: "8801234567890", sku: "CAS-IP16-CLR", name: "아이폰 16 투명 케이스", buyer: "D-R-O" },
-      { barcode: "8801234567891", sku: "CAS-ZF7-SLM", name: "갤럭시 Z폴드7 슬림 핏 케이스", buyer: "ROA" },
-      { barcode: "8801234567892", sku: "ELM-GLS-9H", name: "강화유리 액정보호필름 2P", buyer: "ELEMENT" },
-      { barcode: "8801234567893", sku: "JAR-BND-SIL", name: "실리콘 밴드 스트랩", buyer: "JARIR" },
-      { barcode: "8801234567894", sku: "TCH-CHR-30W", name: "고속 듀얼 충전기 30W", buyer: "TAICHEONG" }
-    ];
-
-    let guideRules = [...DEFAULT_GUIDES];
-    let itemMaster = [...DEFAULT_ITEMS];
-    let completedCount = 0;
-    let history = [];
-    let currentActiveGuide = null;
 
     window.addEventListener('DOMContentLoaded', () => {
-      populateBuyerDropdown();
-      document.getElementById('guideCount').innerText = guideRules.length;
+      loadStoredGuides();
+      renderGuideTable(guideList);
       lucide.createIcons();
-
-      document.getElementById('barcodeInput').addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') handleSearch();
-      });
-
-      window.addEventListener('keydown', (e) => {
-        if (e.code === 'Space' && e.target.tagName !== 'INPUT') {
-          e.preventDefault();
-          markComplete();
-        }
-      });
     });
 
-    function populateBuyerDropdown() {
-      const select = document.getElementById('buyerSelect');
-      select.innerHTML = '<option value="">고객사 전체 (바코드 매핑)</option>';
-      guideRules.forEach(g => {
-        const opt = document.createElement('option');
-        opt.value = g.buyer;
-        opt.innerText = g.buyer;
-        select.appendChild(opt);
-      });
+    function loadStoredGuides() {
+      const stored = localStorage.getItem('overseas_b2b_guides_v3');
+      if (stored) {
+        try {
+          guideList = JSON.parse(stored);
+        } catch (e) {}
+      }
     }
 
-    function onBuyerSelectChange() {
-      const buyer = document.getElementById('buyerSelect').value;
-      if (!buyer) return;
-      const rule = guideRules.find(g => g.buyer === buyer);
-      if (rule) displayGuide({ buyer: rule.buyer, name: `${rule.buyer} 기본 출고`, barcode: '-', sku: '-', rule: rule });
+    function saveStoredGuides() {
+      localStorage.setItem('overseas_b2b_guides_v3', JSON.stringify(guideList));
     }
 
-    function handleSearch() {
-      const query = document.getElementById('barcodeInput').value.trim();
-      const buyer = document.getElementById('buyerSelect').value;
-      let item = itemMaster.find(i => i.barcode === query || i.sku.toLowerCase() === query.toLowerCase());
-      let targetBuyer = buyer || (item ? item.buyer : null);
+    function resetDefaultGuides() {
+      if (confirm('기본 표준 SOP 데이터로 초기화하시겠습니까?')) {
+        localStorage.removeItem('overseas_b2b_guides_v3');
+        location.reload();
+      }
+    }
 
-      if (!targetBuyer && !item) {
-        alert('일치하는 바코드가 없습니다.');
+    // Render Table Rows (Matching the attached image perfectly)
+    function renderGuideTable(data) {
+      const tbody = document.getElementById('guideTableBody');
+      if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="py-12 text-center text-slate-400">검색 조건에 맞는 고객사 정보가 없습니다.</td></tr>`;
         return;
       }
 
-      let rule = guideRules.find(r => r.buyer === targetBuyer) || guideRules[0];
-      displayGuide({
-        buyer: targetBuyer,
-        name: item ? item.name : `${targetBuyer} 품목`,
-        barcode: item ? item.barcode : query,
-        sku: item ? item.sku : '-',
-        rule: rule
-      });
-    }
+      tbody.innerHTML = data.map(item => {
+        // Position Badge (패키지 뒤: indigo, 패키지 앞: rose)
+        const isFront = item.pos.includes('앞');
+        const posBadgeClass = isFront 
+          ? 'bg-rose-50 text-rose-700 border border-rose-200' 
+          : 'bg-indigo-50 text-indigo-700 border border-indigo-200';
+        const posIcon = isFront ? 'layers-2' : 'layers';
 
-    function displayGuide(data) {
-      currentActiveGuide = data;
-      const r = data.rule;
-
-      document.getElementById('emptyState').classList.add('hidden');
-      document.getElementById('guideContent').classList.remove('hidden');
-
-      document.getElementById('resBuyerBadge').innerText = data.buyer;
-      document.getElementById('resItemName').innerText = data.name;
-      document.getElementById('resBarcodeSub').innerText = `Barcode: ${data.barcode} | SKU: ${data.sku}`;
-
-      document.getElementById('resPrintBadge').innerText = r.stickerSize;
-
-      const sideBadge = document.getElementById('resSideBadge');
-      const sideText = document.getElementById('resSideText');
-      if (r.side === '앞') {
-        sideBadge.className = 'px-4 py-2 rounded-xl text-sm font-extrabold flex items-center gap-2 shadow-sm bg-rose-600 text-white';
-        sideText.innerText = '패키지 앞면 부착';
-      } else {
-        sideBadge.className = 'px-4 py-2 rounded-xl text-sm font-extrabold flex items-center gap-2 shadow-sm bg-indigo-600 text-white';
-        sideText.innerText = '패키지 뒷면 부착';
-      }
-
-      document.getElementById('resPrintMethod').innerText = r.printMethod;
-      document.getElementById('resBarcodeHandling').innerText = r.handling;
-      document.getElementById('resWarningText').innerText = r.notes;
-
-      const imgArea = document.getElementById('imageDisplayArea');
-      if (r.hasRealPhoto) {
-        imgArea.className = 'rounded-xl border p-2.5 flex items-center gap-2.5 bg-emerald-50 border-emerald-200';
-        imgArea.innerHTML = `<i data-lucide="image" class="w-4 h-4 text-emerald-600"></i><span class="text-xs font-bold text-emerald-800">실부착 사진 등록됨 (${r.photoFile})</span>`;
-      } else {
-        imgArea.className = 'rounded-xl border p-2.5 flex items-center gap-2.5 bg-amber-50 border-amber-200';
-        imgArea.innerHTML = `<i data-lucide="camera" class="w-4 h-4 text-amber-600"></i><span class="text-xs font-bold text-amber-800">실물 스티커 사진 촬영 대기 중 (추후 연동)</span>`;
-      }
-
-      const warnBox = document.getElementById('warningBox');
-      warnBox.className = r.handling.includes('가림') 
-        ? 'p-3 rounded-xl border bg-rose-50 border-rose-200 text-rose-900 flex gap-2 items-start'
-        : 'p-3 rounded-xl border bg-amber-50 border-amber-200 text-amber-900 flex gap-2 items-start';
-
-      const sticker = document.getElementById('targetStickerBox');
-      const defaultBc = document.getElementById('defaultBarcodeArea');
-      document.getElementById('targetStickerName').innerText = r.stickerSize;
-      document.getElementById('diagramHeader').innerText = `패키지 [${r.side}면] 도식도`;
-
-      if (r.side === '앞') {
-        defaultBc.style.display = 'none';
-        sticker.style.top = '45%';
-        sticker.style.left = '20%';
-        document.getElementById('diagramSubtext').innerHTML = "<span class='text-rose-600 font-bold'>★ 전면 부착</span>";
-      } else {
-        defaultBc.style.display = 'flex';
-        if (r.handling.includes('가림')) {
-          sticker.style.top = '65%';
-          sticker.style.left = '16%';
-          document.getElementById('diagramSubtext').innerHTML = "<span class='text-rose-600 font-extrabold'>[경고] 바코드 덮어 가림</span>";
+        // Handling Badge (가림: red warning, 가리지않음: green check, 해당없음: slate)
+        let handlingBadge = '';
+        if (item.handlingType === 'cover' || item.handling.includes('가림')) {
+          handlingBadge = `
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
+              <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-600"></i>
+              <span>${item.handling}</span>
+            </span>
+          `;
+        } else if (item.handlingType === 'safe' || item.handling.includes('가리지')) {
+          handlingBadge = `
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>${item.handling}</span>
+            </span>
+          `;
         } else {
-          sticker.style.top = '25%';
-          sticker.style.left = '16%';
-          document.getElementById('diagramSubtext').innerHTML = "<span class='text-emerald-700 font-bold'>[확인] 바코드 여백 부착</span>";
+          handlingBadge = `
+            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-slate-500"></i>
+              <span>${item.handling}</span>
+            </span>
+          `;
         }
-      }
+
+        // Spec Tag
+        const isCustomSpec = item.spec.includes('65') || item.spec.includes('45');
+        const specBadgeClass = isCustomSpec 
+          ? 'bg-slate-100 text-slate-800 border border-slate-300 font-mono font-bold' 
+          : 'bg-slate-100 text-slate-700 border border-slate-200 font-medium';
+
+        // Photo Status Badge (완료: green, 촬영대기: orange)
+        const photoBadge = item.hasPhoto 
+          ? `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i> 완료</span>`
+          : `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200"><i data-lucide="camera" class="w-3.5 h-3.5 text-amber-600"></i> 촬영대기</span>`;
+
+        return `
+          <tr class="hover:bg-slate-50/80 transition-colors group cursor-pointer" onclick="openGuideModal(${item.no})">
+            <td class="py-4 px-4 text-center font-mono text-slate-400">${item.no}</td>
+            <td class="py-4 px-4 font-black text-sm text-slate-900 tracking-tight">${item.buyer}</td>
+            <td class="py-4 px-4">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold ${posBadgeClass}">
+                <i data-lucide="${posIcon}" class="w-3.5 h-3.5"></i>
+                <span>${item.pos}</span>
+              </span>
+            </td>
+            <td class="py-4 px-4">${handlingBadge}</td>
+            <td class="py-4 px-4 text-slate-800 font-semibold whitespace-pre-line leading-relaxed">${item.outputMethod}</td>
+            <td class="py-4 px-4 text-center">
+              <span class="inline-block px-2.5 py-1 rounded-lg text-xs ${specBadgeClass}">
+                ${item.spec}
+              </span>
+            </td>
+            <td class="py-4 px-4 text-slate-600 text-xs whitespace-pre-line leading-relaxed">${item.notes}</td>
+            <td class="py-4 px-4 text-center">${photoBadge}</td>
+            <td class="py-4 px-4 text-center">
+              <button onclick="event.stopPropagation(); openGuideModal(${item.no})" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-3.5 py-2 rounded-xl inline-flex items-center gap-1 shadow-sm transition group-hover:scale-105">
+                <span>가이드 보기</span>
+                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
       lucide.createIcons();
     }
 
-    function markComplete() {
-      if (!currentActiveGuide) return;
-      completedCount++;
-      document.getElementById('completedCount').innerText = completedCount;
-      document.getElementById('lastBuyerName').innerText = currentActiveGuide.buyer;
-
-      const now = new Date();
-      const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-      history.unshift({ time: timeStr, buyer: currentActiveGuide.buyer, name: currentActiveGuide.name });
-      renderHistory();
-
-      document.getElementById('barcodeInput').value = '';
-      document.getElementById('barcodeInput').focus();
+    // Filter Table
+    function filterGuides() {
+      const keyword = document.getElementById('tableSearchInput').value.toLowerCase().trim();
+      if (!keyword) {
+        renderGuideTable(guideList);
+        return;
+      }
+      const filtered = guideList.filter(item => 
+        item.buyer.toLowerCase().includes(keyword) ||
+        item.spec.toLowerCase().includes(keyword) ||
+        item.outputMethod.toLowerCase().includes(keyword) ||
+        item.notes.toLowerCase().includes(keyword) ||
+        item.handling.toLowerCase().includes(keyword)
+      );
+      renderGuideTable(filtered);
     }
 
-    function renderHistory() {
-      const container = document.getElementById('historyList');
-      if (history.length === 0) return;
-      container.innerHTML = history.slice(0, 8).map(h => `
-        <div class="p-2 rounded bg-slate-50 border border-slate-200 flex justify-between items-center">
-          <span class="font-bold text-slate-700">${h.buyer}</span>
-          <span class="text-slate-400 font-mono text-[10px]">${h.time}</span>
-        </div>
-      `).join('');
+    // Modal Display Logic (개별 가이드 팝업)
+    function openGuideModal(no) {
+      const item = guideList.find(g => g.no === no);
+      if (!item) return;
+
+      document.getElementById('modalBuyerBadge').innerText = item.buyer;
+      document.getElementById('modalTitle').innerText = `${item.buyer} 패킹 라벨 부착 가이드`;
+      document.getElementById('modalSubtitle').innerText = `${item.pos} / ${item.spec} 규격`;
+
+      document.getElementById('modalPosText').innerText = item.pos;
+      document.getElementById('modalHandlingText').innerText = item.handling;
+      document.getElementById('modalSpecBadge').innerText = item.spec;
+      document.getElementById('modalOutputMethod').innerText = item.outputMethod;
+      document.getElementById('modalNotesText').innerText = item.notes;
+
+      // Photo Status Card in Modal
+      const photoStatusEl = document.getElementById('modalPhotoStatus');
+      const photoCardEl = document.getElementById('modalPhotoCard');
+      if (item.hasPhoto) {
+        photoStatusEl.innerText = '등록 완료';
+        photoStatusEl.className = 'text-xs font-bold text-emerald-600';
+        photoCardEl.className = 'rounded-2xl border p-4 flex items-center gap-3 bg-emerald-50 border-emerald-200';
+        photoCardEl.innerHTML = `
+          <div class="w-10 h-10 rounded-xl bg-emerald-200 text-emerald-800 flex items-center justify-center shrink-0">
+            <i data-lucide="image" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h5 class="text-xs font-bold text-emerald-900">실물 스티커 부착 예시 사진 연동 완료</h5>
+            <p class="text-[11px] text-emerald-700">${item.photoFile || `${item.buyer.toLowerCase()}_sample.png`}</p>
+          </div>
+        `;
+      } else {
+        photoStatusEl.innerText = '촬영 대기 중';
+        photoStatusEl.className = 'text-xs font-bold text-amber-600';
+        photoCardEl.className = 'rounded-2xl border p-4 flex items-center gap-3 bg-amber-50 border-amber-200';
+        photoCardEl.innerHTML = `
+          <div class="w-10 h-10 rounded-xl bg-amber-200 text-amber-800 flex items-center justify-center shrink-0">
+            <i data-lucide="camera" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h5 class="text-xs font-bold text-amber-900">실물 스티커 사진 촬영 대기 중 (JARIR)</h5>
+            <p class="text-[11px] text-amber-700">실물 스티커 사진을 촬영한 후 엑셀 업로드 시 연동됩니다.</p>
+          </div>
+        `;
+      }
+
+      // Caution Box Border Style
+      const cautionBox = document.getElementById('modalCautionBox');
+      if (item.handling.includes('가림')) {
+        cautionBox.className = 'bg-rose-50 border border-rose-200 rounded-2xl p-4 text-rose-900';
+      } else {
+        cautionBox.className = 'bg-amber-50 border border-amber-200 rounded-2xl p-4 text-amber-900';
+      }
+
+      // Diagram Animation Positioning
+      const isFront = item.pos.includes('앞');
+      const stickerBox = document.getElementById('diagramTargetSticker');
+      const defaultBc = document.getElementById('diagramBarcodeArea');
+      const stickerLabel = document.getElementById('diagramStickerLabel');
+      const diagramHeader = document.getElementById('diagramHeader');
+      const diagramComment = document.getElementById('diagramComment');
+
+      stickerLabel.innerText = item.spec;
+      diagramHeader.innerText = `패키지 [${isFront ? '앞면' : '뒷면'}] 부착 도식도`;
+
+      if (isFront) {
+        defaultBc.style.display = 'none';
+        stickerBox.style.top = '45%';
+        stickerBox.style.left = '18%';
+        diagramComment.innerHTML = "<span class='text-rose-600 font-extrabold'>★ 패키지 전면 지정 위치에 부착</span>";
+      } else {
+        defaultBc.style.display = 'flex';
+        if (item.handling.includes('가림')) {
+          stickerBox.style.top = '65%';
+          stickerBox.style.left = '16%';
+          diagramComment.innerHTML = "<span class='text-rose-600 font-extrabold'>[경고] 기존 제품 바코드를 완전히 덮어서 부착</span>";
+        } else {
+          stickerBox.style.top = '25%';
+          stickerBox.style.left = '16%';
+          diagramComment.innerHTML = "<span class='text-emerald-700 font-bold'>[확인] 기존 제품 바코드를 가리지 않는 상단 여백에 부착</span>";
+        }
+      }
+
+      document.getElementById('guideModal').classList.remove('hidden');
+      lucide.createIcons();
     }
 
-    function resetToDefaultData() {
-      guideRules = [...DEFAULT_GUIDES];
-      itemMaster = [...DEFAULT_ITEMS];
-      populateBuyerDropdown();
-      document.getElementById('guideCount').innerText = guideRules.length;
-      alert('기본 데이터로 초기화되었습니다.');
+    function closeModal() {
+      document.getElementById('guideModal').classList.add('hidden');
     }
 
-    document.getElementById('excelFileInput').addEventListener('change', function(e) {
+    // Close modal on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // PWA Install Prompt
+    function installAppGuide() {
+      alert('스마트폰/태블릿 브라우저 메뉴(점 3개 또는 공유 버튼)에서 [홈 화면에 추가]를 누르면 바탕화면에 단독 앱으로 설치됩니다.');
+    }
+
+    // Template Download Handler
+    function downloadSampleTemplate() {
+      const sampleData = [
+        ["고객사 명", "부착위치", "부착방식", "스티커 출력 방식", "특이사항"],
+        ["D-R-O", "패키지 뒤", "바코드 가리지않음", "조립처에 요청", "공통 스티커 부착 ※ 유니버셜 품목은 별도의 품목 스티커 출력후 부착 필요"],
+        ["ELEMENT", "패키지 뒤", "바코드 가리지않음", "아이라벨 65 X 44 (품목별 이미지파일 불러와서 출력)", "품목 별 스티커 출력후 부착 ※ 신규 품목이 나올경우 고객사에 이미지 파일 요청 필요"],
+        ["ROA", "패키지 뒤", "바코드 가림", "아이라벨 45 X 35 (품목별 데이터파일 불러와서 출력)", "품목 별 스티커 출력후 부착 ※ 신규 품목이 나올경우 고객사에 바코드 데이터 요청 필요"],
+        ["JARIR", "패키지 뒤", "바코드 가리지않음", "조립처에 요청", "공통 스티커 부착 ※ 실리콘밴드, 캐링케이스등 특정 품목은 별도의 스티커 추가부착 必"],
+        ["TAICHEONG", "패키지 앞", "-", "조립처에 요청", "공통스티커 부착"]
+      ];
+      const ws = XLSX.utils.aoa_to_sheet(sampleData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "고객사별");
+      XLSX.writeFile(wb, "품목스티커_부착_가이드_양식.xlsx");
+    }
+
+    // Export Current Table
+    function exportCurrentTableToExcel() {
+      const exportRows = guideList.map(g => ({
+        "NO": g.no,
+        "고객사 명": g.buyer,
+        "부착 위치": g.pos,
+        "부착 방식": g.handling,
+        "스티커 출력 방식": g.outputMethod,
+        "규격": g.spec,
+        "특이사항 및 작업 주의점": g.notes,
+        "실물 사진 상태": g.hasPhoto ? "완료" : "촬영대기"
+      }));
+      const ws = XLSX.utils.json_to_sheet(exportRows);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "가이드목록");
+      XLSX.writeFile(wb, "해외_B2B_라벨가이드_목록.xlsx");
+    }
+
+    // Excel Upload Handler
+    document.getElementById('excelUploadInput').addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file) return;
+
       const reader = new FileReader();
       reader.onload = function(evt) {
         try {
           const data = new Uint8Array(evt.target.result);
-          const wb = XLSX.read(data, { type: 'array' });
-          const rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
-          if (rows && rows.length > 0) {
-            guideRules = rows.map(r => ({
-              buyer: r['고객사 명'] || r['고객사명'] || '기타',
-              pos: r['부착위치'] || '패키지 뒤',
-              side: (r['부착위치'] || '').includes('앞') ? '앞' : '뒤',
-              handling: r['부착방식'] || '바코드 가리지않음',
-              printMethod: r['스티커 출력 방식'] || '조립처에 요청',
-              stickerSize: (r['스티커 출력 방식'] || '').includes('65') ? '65 X 44' : (r['스티커 출력 방식'] || '').includes('45') ? '45 X 35' : '공통 스티커',
-              hasRealPhoto: !(r['고객사 명'] || '').includes('JARIR'),
-              photoFile: '',
-              notes: r['특이사항'] || ''
-            }));
-            populateBuyerDropdown();
-            document.getElementById('guideCount').innerText = guideRules.length;
-            alert('엑셀 가이드가 갱신되었습니다.');
+          const workbook = XLSX.read(data, { type: 'array' });
+          const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+          const rawRows = XLSX.utils.sheet_to_json(firstSheet);
+
+          if (rawRows && rawRows.length > 0) {
+            guideList = rawRows.map((row, idx) => {
+              const buyerName = row['고객사 명'] || row['고객사명'] || `BUYER_${idx+1}`;
+              const posStr = row['부착위치'] || row['부착 위치'] || '패키지 뒤';
+              const handlingStr = row['부착방식'] || row['부착 방식'] || '바코드 가리지않음';
+              const printStr = row['스티커 출력 방식'] || '조립처에 요청';
+              const notesStr = row['특이사항'] || row['특이사항 및 작업 주의점'] || '';
+
+              let specStr = '공통 스티커';
+              if (printStr.includes('65')) specStr = '65 X 44';
+              else if (printStr.includes('45')) specStr = '45 X 35';
+
+              const isJarir = buyerName.includes('JARIR');
+
+              return {
+                no: idx + 1,
+                buyer: buyerName,
+                pos: posStr,
+                handling: handlingStr,
+                handlingType: handlingStr.includes('가림') ? 'cover' : handlingStr.includes('-') ? 'none' : 'safe',
+                outputMethod: printStr,
+                spec: specStr,
+                notes: notesStr,
+                hasPhoto: !isJarir,
+                photoFile: isJarir ? '' : `${buyerName.toLowerCase()}_sample.png`
+              };
+            });
+
+            saveStoredGuides();
+            renderGuideTable(guideList);
+            alert(`총 ${guideList.length}건의 고객사 라벨 부착 가이드가 정상적으로 업데이트되었습니다.`);
           }
-        } catch (err) { alert('엑셀 읽기 오류'); }
+        } catch (error) {
+          alert('엑셀 파일을 읽는 도중 오류가 발생했습니다. 양식을 확인해 주세요.');
+        }
       };
       reader.readAsArrayBuffer(file);
     });
