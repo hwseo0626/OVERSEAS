@@ -1,0 +1,6 @@
+{
+  "name": "해외 B2B 고객사별 스티커 부착 가이드",
+  "description": "해외 B2B 고객사별 라벨 출력 규격 및 부착 위치 실시간 안내",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

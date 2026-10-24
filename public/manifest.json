@@ -1,0 +1,41 @@
+{
+  "id": "OVERSEAS",
+  "name": "OVERSEAS",
+  "short_name": "B2B STICKERS",
+  "description": "해외 B2B 고객사별 스티커 부착 가이드",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "dir": "ltr",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "lang": "ko",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "192x192",
+      "type": "image/x-icon",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
