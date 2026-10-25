@@ -223,10 +223,10 @@
             </div>
           </div>
 
-          <!-- 2 Visual Boxes (1. 스티커 사진 시안 / 2. 실부착 사진) -->
+          <!-- 2 Visual Boxes (1. 스티커 사진 / 2. 실부착 사진) -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
             
-            <!-- Box 1: Sticker Print Spec / Draft -->
+            <!-- Box 1: Sticker Photo Spec -->
             <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
               <div class="flex items-center justify-between mb-3">
                 <div class="flex items-center gap-2">
@@ -235,28 +235,24 @@
                   <span id="specLabelBadge" class="text-[10px] font-extrabold bg-purple-100 text-purple-700 px-2 py-0.5 rounded">공통 스티커</span>
                 </div>
                 <div class="flex items-center gap-1.5">
-                  <button id="delStickerBtn" onclick="deleteRegisteredImage('sticker')" class="hidden p-1 text-slate-400 hover:text-red-600 rounded-lg transition" title="등록된 사진 삭제">
-                    <i data-lucide="trash-2" class="w-4 h-4"></i>
-                  </button>
-                  <label class="cursor-pointer bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 px-2.5 py-1 rounded-lg text-[11px] font-bold inline-flex items-center gap-1 transition shadow-sm">
-                    <i data-lucide="upload" class="w-3.5 h-3.5"></i> 사진 등록
-                    <input type="file" id="inputStickerPhoto" onchange="handleImageUpload(event, 'sticker')" accept="image/*" class="hidden">
-                  </label>
+                  <span id="stickerFileTag" class="text-[10px] font-mono text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200"></span>
                 </div>
               </div>
 
-              <!-- Sticker Visual Container (사진 등록 시 사진 표시, 없을 시 도식도) -->
+              <!-- Sticker Visual Container (Max-height 260px) -->
               <div class="min-h-[250px] max-h-[260px] flex items-center justify-center p-2 rounded-xl bg-white border border-slate-200 overflow-hidden relative">
                 
-                <!-- 1) Uploaded Custom Image -->
-                <img id="imgStickerPhoto" src="" alt="스티커 라벨 시안" class="hidden max-h-[240px] max-w-full object-contain rounded-lg shadow-sm">
+                <!-- Server Image from GitHub Repository -->
+                <img id="imgStickerPhoto" src="" alt="스티커 라벨 시안" class="hidden max-h-[240px] max-w-full object-contain rounded-lg shadow-sm"
+                  onload="this.classList.remove('hidden'); document.getElementById('graphicStickerDraft').classList.add('hidden');"
+                  onerror="this.classList.add('hidden'); document.getElementById('graphicStickerDraft').classList.remove('hidden');">
 
-                <!-- 2) Fallback Graphic Diagram -->
+                <!-- Fallback Graphic Diagram (Displayed when image is missing) -->
                 <div id="graphicStickerDraft" class="w-64 bg-white rounded-2xl border-2 border-emerald-400 p-3.5 shadow-sm flex flex-col justify-between">
                   <div class="flex justify-between items-start mb-1.5">
                     <div>
                       <span id="stickerBuyerName" class="text-xs font-black text-blue-600 block">D-R-O</span>
-                      <span id="stickerTitleText" class="text-xs font-bold text-slate-900">출고 라벨</span>
+                      <span id="stickerTitleText" class="text-xs font-bold text-slate-900">출고 라벨 시안</span>
                     </div>
                     <span id="stickerSizeTag" class="text-[9px] font-bold bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded border border-slate-200">공통 스티커</span>
                   </div>
@@ -277,10 +273,8 @@
               </div>
 
               <div class="flex justify-between items-center text-[11px] font-medium text-slate-500 pt-2.5 px-1">
-                <span id="stickerStatusNotice">출력 라벨 기본 시안</span>
-                <label for="inputStickerPhoto" class="text-indigo-600 font-bold hover:underline cursor-pointer inline-flex items-center gap-1">
-                  <i data-lucide="image-plus" class="w-3.5 h-3.5"></i> 사진 교체하기
-                </label>
+                <span id="stickerStatusNotice">서버 등록 사진</span>
+                <span class="text-slate-400">규격 시안 확인</span>
               </div>
             </div>
 
@@ -293,23 +287,19 @@
                   <span id="sideLabelBadge" class="text-[10px] font-extrabold bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded">패키지 뒤</span>
                 </div>
                 <div class="flex items-center gap-1.5">
-                  <button id="delPackageBtn" onclick="deleteRegisteredImage('package')" class="hidden p-1 text-slate-400 hover:text-red-600 rounded-lg transition" title="등록된 사진 삭제">
-                    <i data-lucide="trash-2" class="w-4 h-4"></i>
-                  </button>
-                  <label class="cursor-pointer bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 px-2.5 py-1 rounded-lg text-[11px] font-bold inline-flex items-center gap-1 transition shadow-sm">
-                    <i data-lucide="upload" class="w-3.5 h-3.5"></i> 사진 등록
-                    <input type="file" id="inputPackagePhoto" onchange="handleImageUpload(event, 'package')" accept="image/*" class="hidden">
-                  </label>
+                  <span id="packageFileTag" class="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200"></span>
                 </div>
               </div>
 
-              <!-- Package Visual Container (사진 등록 시 사진 표시, 없을 시 도식도) -->
+              <!-- Package Visual Container (Max-height 260px) -->
               <div class="min-h-[250px] max-h-[260px] flex items-center justify-center p-2 rounded-xl bg-white border border-slate-200 overflow-hidden relative">
                 
-                <!-- 1) Uploaded Custom Image -->
-                <img id="imgPackagePhoto" src="" alt="실부착 사진" class="hidden max-h-[240px] max-w-full object-contain rounded-lg shadow-sm">
+                <!-- Server Image from GitHub Repository -->
+                <img id="imgPackagePhoto" src="" alt="실부착 사진" class="hidden max-h-[240px] max-w-full object-contain rounded-lg shadow-sm"
+                  onload="this.classList.remove('hidden'); document.getElementById('graphicPackageDraft').classList.add('hidden');"
+                  onerror="this.classList.add('hidden'); document.getElementById('graphicPackageDraft').classList.remove('hidden');">
 
-                <!-- 2) Fallback Package Diagram -->
+                <!-- Fallback Package Diagram (Displayed when image is missing or waiting) -->
                 <div id="graphicPackageDraft" class="w-52 h-56 bg-white rounded-2xl border-2 border-slate-300 shadow-sm relative flex flex-col justify-between p-3">
                   <div class="text-center">
                     <span id="mockSideTitle" class="text-[10px] font-bold text-slate-400">패키지 후면 (BACK)</span>
@@ -335,10 +325,8 @@
               </div>
 
               <div class="flex justify-between items-center text-[11px] font-medium text-slate-500 pt-2.5 px-1">
-                <span id="packageStatusNotice">실물 패키지 도식도</span>
-                <label for="inputPackagePhoto" class="text-indigo-600 font-bold hover:underline cursor-pointer inline-flex items-center gap-1">
-                  <i data-lucide="image-plus" class="w-3.5 h-3.5"></i> 사진 교체하기
-                </label>
+                <span id="packageStatusNotice">실물 패키지 부착 가이드</span>
+                <span class="text-slate-400">위치 검수</span>
               </div>
             </div>
 
@@ -352,8 +340,9 @@
 
   </main>
 
-  <!-- Master Data & Image Management Script -->
+  <!-- Master Data & Script -->
   <script>
+    // GitHub Repository Image Mapping (확장자가 jpg, png 둘 다 지원되도록 기본값 매핑)
     let guideList = [
       {
         no: 1,
@@ -366,7 +355,9 @@
         spec: "공통 스티커",
         notes: "공통 스티커 부착\n※ 유니버셜 품목은 별도의 품목 스티커 출력 후 부착 필요",
         hasPhoto: true,
-        photoStatusText: "등록완료"
+        photoStatusText: "등록완료",
+        stickerImg: "dro_sticker.jpg",
+        packageImg: "dro_package.jpg"
       },
       {
         no: 2,
@@ -379,7 +370,9 @@
         spec: "65 X 44",
         notes: "품목 별 스티커 출력 후 부착\n※ 신규 품목 입고 시 고객사에 이미지 파일 사전 요청 필수",
         hasPhoto: true,
-        photoStatusText: "등록완료"
+        photoStatusText: "등록완료",
+        stickerImg: "element_sticker.jpg",
+        packageImg: "element_package.jpg"
       },
       {
         no: 3,
@@ -392,7 +385,9 @@
         spec: "45 X 35",
         notes: "품목 별 스티커 출력 후 부착 (기존 바코드 완벽 가림)\n※ 신규 품목 입고 시 고객사에 바코드 데이터 사전 요청 필수",
         hasPhoto: true,
-        photoStatusText: "가림"
+        photoStatusText: "가림",
+        stickerImg: "roa_sticker.jpg",
+        packageImg: "roa_package.jpg"
       },
       {
         no: 4,
@@ -405,7 +400,9 @@
         spec: "공통 스티커",
         notes: "공통 스티커 부착 (※ 실리콘밴드, 캐링케이스 등 특정 품목은 별도의 스티커 추가 부착 必)\n※ 실물 스티커 사진 촬영 후 추후 시스템 등록 예정",
         hasPhoto: false,
-        photoStatusText: "촬영대기"
+        photoStatusText: "촬영대기",
+        stickerImg: "jarir_sticker.jpg",
+        packageImg: "jarir_package.jpg"
       },
       {
         no: 5,
@@ -418,29 +415,19 @@
         spec: "공통 스티커",
         notes: "공통스티커 부착 (패키지 전면 지정 위치 부착)",
         hasPhoto: true,
-        photoStatusText: "등록완료"
+        photoStatusText: "등록완료",
+        stickerImg: "taicheong_sticker.jpg",
+        packageImg: "taicheong_package.jpg"
       }
     ];
 
     let currentBuyerIndex = 0;
 
     window.addEventListener('DOMContentLoaded', () => {
-      loadStoredGuides();
       renderGuideTable(guideList);
       renderBuyerCardsNav();
       lucide.createIcons();
     });
-
-    function loadStoredGuides() {
-      const stored = localStorage.getItem('overseas_b2b_sop_v5');
-      if (stored) {
-        try { guideList = JSON.parse(stored); } catch (e) {}
-      }
-    }
-
-    function saveStoredGuides() {
-      localStorage.setItem('overseas_b2b_sop_v5', JSON.stringify(guideList));
-    }
 
     function switchView(viewName) {
       const viewTable = document.getElementById('viewTable');
@@ -461,11 +448,6 @@
     function renderGuideTable(data) {
       const tbody = document.getElementById('guideTableBody');
       if (!tbody) return;
-
-      if (data.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="9" class="py-12 text-center text-slate-400">검색 조건에 맞는 고객사 정보가 없습니다.</td></tr>`;
-        return;
-      }
 
       tbody.innerHTML = data.map((item, idx) => {
         const isFront = item.pos.includes('앞');
@@ -503,17 +485,9 @@
           ? 'bg-slate-100 text-slate-800 border border-slate-300 font-mono font-bold' 
           : 'bg-slate-100 text-slate-700 border border-slate-200 font-medium';
 
-        // Check if user uploaded real image for this buyer
-        const customPackageImg = localStorage.getItem(`img_package_${item.buyer}`);
-        const customStickerImg = localStorage.getItem(`img_sticker_${item.buyer}`);
-        const isPhotoRegistered = item.hasPhoto || customPackageImg || customStickerImg;
-
-        let photoBadge = '';
-        if (isPhotoRegistered) {
-          photoBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i> 완료</span>`;
-        } else {
-          photoBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200"><i data-lucide="camera" class="w-3.5 h-3.5 text-amber-600"></i> 촬영대기</span>`;
-        }
+        let photoBadge = item.hasPhoto 
+          ? `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i> 완료</span>`
+          : `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200"><i data-lucide="camera" class="w-3.5 h-3.5 text-amber-600"></i> 촬영대기</span>`;
 
         return `
           <tr class="hover:bg-slate-50/80 transition-colors cursor-pointer group" onclick="openBuyerTutorial(${idx})">
@@ -564,7 +538,7 @@
         let statusBadge = '';
         if (item.buyer === 'ROA') {
           statusBadge = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 border border-rose-200">⚠ 가림</span>`;
-        } else if (item.buyer === 'JARIR' && !localStorage.getItem(`img_package_${item.buyer}`) && !localStorage.getItem(`img_sticker_${item.buyer}`)) {
+        } else if (item.buyer === 'JARIR') {
           statusBadge = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">📷 촬영대기</span>`;
         } else {
           statusBadge = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">✔ 등록완료</span>`;
@@ -602,7 +576,6 @@
           `;
         }
       }).join('');
-
       lucide.createIcons();
     }
 
@@ -619,7 +592,7 @@
       selectBuyerTab(newIdx);
     }
 
-    // Render SOP View with Image Persistence Check
+    // Render Detailed SOP Tutorial & Link Images from GitHub
     function renderTutorial(idx) {
       const item = guideList[idx];
       if (!item) return;
@@ -673,139 +646,77 @@
       document.getElementById('sopPosTag').innerText = `부착면: ${item.pos}`;
       document.getElementById('sopNotesText').innerText = item.notes;
 
-      // 1. Sticker Visual Update (Load custom or diagram)
+      // 1. Sticker Photo Load (GitHub Repository Path)
       document.getElementById('specLabelBadge').innerText = item.spec;
-      const customStickerData = localStorage.getItem(`img_sticker_${item.buyer}`);
+      document.getElementById('stickerFileTag').innerText = item.stickerImg;
+      
       const imgStickerEl = document.getElementById('imgStickerPhoto');
       const graphicStickerEl = document.getElementById('graphicStickerDraft');
-      const delStickerBtn = document.getElementById('delStickerBtn');
       const stickerNotice = document.getElementById('stickerStatusNotice');
 
-      if (customStickerData) {
-        imgStickerEl.src = customStickerData;
-        imgStickerEl.classList.remove('hidden');
-        graphicStickerEl.classList.add('hidden');
-        delStickerBtn.classList.remove('hidden');
-        stickerNotice.innerText = '등록된 실물 스티커 사진';
+      // Set fallback diagram content first
+      document.getElementById('stickerBuyerName').innerText = item.buyer;
+      document.getElementById('stickerSizeTag').innerText = item.spec;
+      document.getElementById('stickerFootPrint').innerText = item.outputMethod.split('\n')[0];
+      document.getElementById('stickerFootPos').innerText = item.handling.includes('가림') ? '바코드 은폐용' : '여백 부착용';
+
+      if (item.stickerImg) {
+        imgStickerEl.src = item.stickerImg;
+        stickerNotice.innerText = `서버 사진 연동: ${item.stickerImg}`;
       } else {
+        imgStickerEl.src = '';
         imgStickerEl.classList.add('hidden');
         graphicStickerEl.classList.remove('hidden');
-        delStickerBtn.classList.add('hidden');
         stickerNotice.innerText = '출력 라벨 기본 시안';
-
-        document.getElementById('stickerBuyerName').innerText = item.buyer;
-        document.getElementById('stickerSizeTag').innerText = item.spec;
-        document.getElementById('stickerFootPrint').innerText = item.outputMethod.split('\n')[0];
-        document.getElementById('stickerFootPos').innerText = item.handling.includes('가림') ? '바코드 은폐용' : '여백 부착용';
       }
 
-      // 2. Package Visual Update (Load custom or diagram)
+      // 2. Package Photo Load (GitHub Repository Path)
       document.getElementById('sideLabelBadge').innerText = item.pos;
-      const customPackageData = localStorage.getItem(`img_package_${item.buyer}`);
+      document.getElementById('packageFileTag').innerText = item.packageImg;
+
       const imgPackageEl = document.getElementById('imgPackagePhoto');
       const graphicPackageEl = document.getElementById('graphicPackageDraft');
-      const delPackageBtn = document.getElementById('delPackageBtn');
       const packageNotice = document.getElementById('packageStatusNotice');
 
-      if (customPackageData) {
-        imgPackageEl.src = customPackageData;
-        imgPackageEl.classList.remove('hidden');
-        graphicPackageEl.classList.add('hidden');
-        delPackageBtn.classList.remove('hidden');
-        packageNotice.innerText = '등록된 패키지 실부착 사진';
+      // Set fallback package diagram
+      document.getElementById('mockSideTitle').innerText = `패키지 ${isFront ? '전면 (FRONT)' : '후면 (BACK)'}`;
+      const mockSticker = document.getElementById('mockTargetSticker');
+      const mockStickerName = document.getElementById('mockTargetStickerName');
+      const mockTargetSub = document.getElementById('mockTargetSub');
+      const mockBarcode = document.getElementById('mockDefaultBarcode');
+      const mockSideBottomText = document.getElementById('mockSideBottomText');
+
+      mockStickerName.innerText = `${item.buyer} 스티커`;
+
+      if (isFront) {
+        mockBarcode.style.display = 'none';
+        mockTargetSub.innerText = `전면 지정 부착 (${item.spec})`;
+        mockSideBottomText.innerText = '전면 중앙/지정 위치 부착';
+        mockSticker.className = 'w-full bg-rose-50 border-2 border-rose-500 rounded-xl p-2 text-center shadow-sm';
       } else {
-        imgPackageEl.classList.add('hidden');
-        graphicPackageEl.classList.remove('hidden');
-        delPackageBtn.classList.add('hidden');
-        packageNotice.innerText = '실물 패키지 도식도';
-
-        document.getElementById('mockSideTitle').innerText = `패키지 ${isFront ? '전면 (FRONT)' : '후면 (BACK)'}`;
-        const mockSticker = document.getElementById('mockTargetSticker');
-        const mockStickerName = document.getElementById('mockTargetStickerName');
-        const mockTargetSub = document.getElementById('mockTargetSub');
-        const mockBarcode = document.getElementById('mockDefaultBarcode');
-        const mockSideBottomText = document.getElementById('mockSideBottomText');
-
-        mockStickerName.innerText = `${item.buyer} 스티커`;
-
-        if (isFront) {
-          mockBarcode.style.display = 'none';
-          mockTargetSub.innerText = `전면 지정 부착 (${item.spec})`;
-          mockSideBottomText.innerText = '전면 중앙/지정 위치 부착';
+        mockBarcode.style.display = 'flex';
+        if (item.handling.includes('가림')) {
+          mockTargetSub.innerText = `기존 바코드를 덮어서 부착 (${item.spec})`;
+          mockSideBottomText.innerText = '하단 바코드 은폐 부착';
           mockSticker.className = 'w-full bg-rose-50 border-2 border-rose-500 rounded-xl p-2 text-center shadow-sm';
         } else {
-          mockBarcode.style.display = 'flex';
-          if (item.handling.includes('가림')) {
-            mockTargetSub.innerText = `기존 바코드를 덮어서 부착 (${item.spec})`;
-            mockSideBottomText.innerText = '하단 바코드 은폐 부착';
-            mockSticker.className = 'w-full bg-rose-50 border-2 border-rose-500 rounded-xl p-2 text-center shadow-sm';
-          } else {
-            mockTargetSub.innerText = `상단 여백 부착 (${item.spec})`;
-            mockSideBottomText.innerText = '상단 여백 부착';
-            mockSticker.className = 'w-full bg-emerald-50 border-2 border-emerald-500 rounded-xl p-2 text-center shadow-sm';
-          }
+          mockTargetSub.innerText = `상단 여백 부착 (${item.spec})`;
+          mockSideBottomText.innerText = '상단 여백 부착';
+          mockSticker.className = 'w-full bg-emerald-50 border-2 border-emerald-500 rounded-xl p-2 text-center shadow-sm';
         }
       }
 
-      lucide.createIcons();
-    }
-
-    // Image Upload & Resize Handler (적절한 크기 자동 압축 및 로컬 저장)
-    function handleImageUpload(event, type) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const currentBuyer = guideList[currentBuyerIndex].buyer;
-      const reader = new FileReader();
-
-      reader.onload = function(e) {
-        const img = new Image();
-        img.onload = function() {
-          // Canvas resize to prevent local storage overflow (Max width 800px)
-          const canvas = document.createElement('canvas');
-          let width = img.width;
-          let height = img.height;
-          const maxDim = 800;
-
-          if (width > height && width > maxDim) {
-            height = Math.round((height * maxDim) / width);
-            width = maxDim;
-          } else if (height > maxDim) {
-            width = Math.round((width * maxDim) / height);
-            height = maxDim;
-          }
-
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-
-          // Get optimized base64 string
-          const optimizedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
-
-          try {
-            // Save individually for this buyer
-            localStorage.setItem(`img_${type}_${currentBuyer}`, optimizedDataUrl);
-            renderTutorial(currentBuyerIndex);
-            renderBuyerCardsNav();
-            alert(`${currentBuyer}의 ${type === 'sticker' ? '1. 스티커 사진' : '2. 실부착 사진'}이 성공적으로 등록되었습니다.`);
-          } catch (err) {
-            alert('저장 공간이 부족하여 이미지를 저장할 수 없습니다. 더 작은 사진을 사용해 주세요.');
-          }
-        };
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    // Delete Registered Image Handler
-    function deleteRegisteredImage(type) {
-      const currentBuyer = guideList[currentBuyerIndex].buyer;
-      if (confirm(`${currentBuyer}의 등록된 ${type === 'sticker' ? '스티커 사진' : '실부착 사진'}을 삭제하시겠습니까?`)) {
-        localStorage.removeItem(`img_${type}_${currentBuyer}`);
-        renderTutorial(currentBuyerIndex);
-        renderBuyerCardsNav();
+      if (item.packageImg && item.hasPhoto) {
+        imgPackageEl.src = item.packageImg;
+        packageNotice.innerText = `서버 사진 연동: ${item.packageImg}`;
+      } else {
+        imgPackageEl.src = '';
+        imgPackageEl.classList.add('hidden');
+        graphicPackageEl.classList.remove('hidden');
+        packageNotice.innerText = item.buyer === 'JARIR' ? '실물 사진 촬영 대기 중' : '실물 패키지 도식도';
       }
+
+      lucide.createIcons();
     }
 
     function filterGuides() {
@@ -861,7 +772,7 @@
       XLSX.writeFile(wb, "해외_B2B_라벨가이드_목록.xlsx");
     }
 
-    // Excel Upload
+    // Excel Upload Handler
     document.getElementById('excelUploadInput').addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -888,6 +799,7 @@
 
               const isJarir = buyerName.includes('JARIR');
               const isRoa = buyerName.includes('ROA');
+              const lowerName = buyerName.toLowerCase().replace(/[^a-z0-9]/g, '');
 
               return {
                 no: idx + 1,
@@ -900,14 +812,15 @@
                 spec: specStr,
                 notes: notesStr,
                 hasPhoto: !isJarir,
-                photoStatusText: isRoa ? '가림' : isJarir ? '촬영대기' : '등록완료'
+                photoStatusText: isRoa ? '가림' : isJarir ? '촬영대기' : '등록완료',
+                stickerImg: `${lowerName}_sticker.jpg`,
+                packageImg: `${lowerName}_package.jpg`
               };
             });
 
-            saveStoredGuides();
             renderGuideTable(guideList);
             renderBuyerCardsNav();
-            alert(`총 ${guideList.length}건의 고객사 라벨 부착 가이드가 업데이트되었습니다.`);
+            alert(`총 ${guideList.length}건의 가이드 데이터가 업데이트되었습니다.`);
           }
         } catch (error) {
           alert('엑셀 파일을 읽는 도중 오류가 발생했습니다.');
