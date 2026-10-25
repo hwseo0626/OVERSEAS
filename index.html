@@ -360,7 +360,7 @@
         code: "03",
         buyer: "ROA",
         pos: "패키지 뒤",
-        handling: "바코드 가림 (덮어 부착)",
+        handling: "바코드 가림",
         handlingType: "cover",
         outputMethod: "아이라벨 45 X 35\n(품목별 데이터파일 불러와 출력)",
         spec: "45 X 35",
@@ -442,14 +442,14 @@
           handlingBadge = `
             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
               <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-600 shrink-0"></i>
-              <span class="text-left leading-tight">바코드 가림<br><span class="text-[11px] font-semibold">(덮어 부착)</span></span>
+              <span class="text-left leading-tight">바코드 가림</span>
             </span>
           `;
         } else if (item.handlingType === 'safe' || item.handling.includes('가리지')) {
           handlingBadge = `
             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
               <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
-              <span class="text-left leading-tight">바코드<br>가리지않음</span>
+              <span class="text-left leading-tight">바코드가리지않음</span>
             </span>
           `;
         } else {
