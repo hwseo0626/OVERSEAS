@@ -816,7 +816,7 @@
             guideList = rawRows.map((row, idx) => {
               const buyerName = row['고객사 명'] || row['고객사명'] || `BUYER_${idx+1}`;
               const posStr = row['부착위치'] || row['부착 위치'] || '패키지 뒤';
-              const handlingStr = row['부착방식'] || row['부착 방식'] || '바코드\n가리지않음';
+              const handlingStr = row['부착방식'] || row['부착 방식'] || '바코드 가리지않음';
               const printStr = row['스티커 출력 방식'] || '조립처에 요청';
               const notesStr = row['특이사항'] || row['특이사항 및 작업 주의점'] || '';
 
