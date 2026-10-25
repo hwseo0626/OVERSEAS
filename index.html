@@ -42,7 +42,6 @@
       </div>
 
       <div class="flex items-center gap-2">
-        <!-- 태블릿 작업자용 QR 코드 팝업 버튼 -->
         <button onclick="openQrModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shadow-sm">
           <i data-lucide="qr-code" class="w-4 h-4"></i>
           <span>QR 접속</span>
@@ -89,19 +88,20 @@
         </div>
       </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs border-collapse">
+      <!-- 모바일 세로 찌그러짐 방지: overflow-x-auto 및 min-w-[1050px] 적용 -->
+      <div class="overflow-x-auto w-full">
+        <table class="w-full text-left text-xs border-collapse min-w-[1050px]">
           <thead>
             <tr class="border-b border-slate-200 bg-slate-50/70 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
               <th class="py-3 px-4 text-center w-12">NO</th>
-              <th class="py-3 px-4 w-32">고객사 명</th>
-              <th class="py-3 px-4 w-32">부착 위치</th>
-              <th class="py-3 px-4 w-44">부착 방식 (바코드 처리)</th>
-              <th class="py-3 px-4 w-56">스티커 출력 방식</th>
-              <th class="py-3 px-4 text-center w-28">규격</th>
-              <th class="py-3 px-4">특이사항 및 작업 주의점</th>
-              <th class="py-3 px-4 text-center w-24">실물 사진</th>
-              <th class="py-3 px-4 text-center w-28">가이드 보기</th>
+              <th class="py-3 px-4 w-32 whitespace-nowrap">고객사 명</th>
+              <th class="py-3 px-4 w-32 whitespace-nowrap">부착 위치</th>
+              <th class="py-3 px-4 w-44 whitespace-nowrap">부착 방식 (바코드 처리)</th>
+              <th class="py-3 px-4 w-56 whitespace-nowrap">스티커 출력 방식</th>
+              <th class="py-3 px-4 text-center w-28 whitespace-nowrap">규격</th>
+              <th class="py-3 px-4 min-w-[320px] whitespace-normal">특이사항 및 작업 주의점</th>
+              <th class="py-3 px-4 text-center w-24 whitespace-nowrap">실물 사진</th>
+              <th class="py-3 px-4 text-center w-28 whitespace-nowrap">가이드 보기</th>
             </tr>
           </thead>
           <tbody id="guideTableBody" class="divide-y divide-slate-100 font-medium text-slate-700">
@@ -185,7 +185,7 @@
             </div>
           </div>
 
-          <!-- Priority Inspection Banner (1줄 표기, 미은폐 보존 뱃지 삭제됨) -->
+          <!-- Priority Inspection Banner -->
           <div id="priorityBanner" class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center gap-3.5">
             <div id="priorityIconBox" class="w-9 h-9 rounded-xl bg-emerald-500 text-white flex items-center justify-center shrink-0">
               <i id="priorityIcon" data-lucide="check" class="w-5 h-5"></i>
@@ -258,7 +258,7 @@
                       <span id="stickerBuyerName" class="text-xs font-black text-blue-600 block">D-R-O</span>
                       <span id="stickerTitleText" class="text-xs font-bold text-slate-900">출고 라벨 시안</span>
                     </div>
-                    <span id="stickerSizeTag" class="text-[9px] font-bold bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded border border-slate-200">공통 스티커</span>
+                    <span id="stickerSizeTag" class="text-[9px] font-bold bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded border border-slate-200">공통 </span>
                   </div>
                   
                   <div class="bg-slate-50 border border-slate-200 rounded-lg p-2 text-center my-1.5">
@@ -333,7 +333,7 @@
 
   </main>
 
-  <!-- QR 접속 모달 (태블릿 작업자용) -->
+  <!-- QR 접속 모달 -->
   <div id="qrModal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-200 animate-in fade-in zoom-in duration-200">
       <div class="p-5 bg-slate-900 text-white flex justify-between items-center">
@@ -353,7 +353,6 @@
 
       <div class="p-6 text-center space-y-4" id="qrPrintArea">
         <div class="inline-block p-4 bg-white rounded-2xl border-2 border-indigo-100 shadow-inner">
-          <!-- QR Code Image Generator -->
           <img id="qrCodeImage" src="" alt="접속 QR 코드" class="w-52 h-52 mx-auto rounded-lg">
         </div>
 
@@ -380,7 +379,7 @@
     </div>
   </div>
 
-  <!-- Master Data & Universal Cross-Device Script -->
+  <!-- Master Data & Universal Script -->
   <script>
     let guideList = [
       {
@@ -388,10 +387,10 @@
         code: "01",
         buyer: "D-R-O",
         pos: "패키지 뒤",
-        handling: "바코드 가리지않음",
+        handling: "바코드 가리지 않음",
         handlingType: "safe",
         outputMethod: "조립처에 요청",
-        spec: "공통",
+        spec: "공통 ",
         notes: "공통 스티커 부착\n※ 유니버셜 품목은 별도의 품목 스티커 출력 후 부착 필요",
         hasPhoto: true,
         photoStatusText: "등록완료",
@@ -403,7 +402,7 @@
         code: "02",
         buyer: "ELEMENT",
         pos: "패키지 뒤",
-        handling: "바코드 가리지않음",
+        handling: "바코드 가리지 않음",
         handlingType: "safe",
         outputMethod: "아이라벨 65 X 44\n(품목별 이미지파일 불러와 출력)",
         spec: "65 X 44",
@@ -418,7 +417,7 @@
         code: "03",
         buyer: "ROA",
         pos: "패키지 뒤",
-        handling: "바코드 가림 (덮어 부착)",
+        handling: "바코드 가림",
         handlingType: "cover",
         outputMethod: "아이라벨 45 X 35\n(품목별 데이터파일 불러와 출력)",
         spec: "45 X 35",
@@ -433,7 +432,7 @@
         code: "04",
         buyer: "JARIR",
         pos: "패키지 뒤",
-        handling: "바코드 가리지않음",
+        handling: "바코드 가리지 않음",
         handlingType: "safe",
         outputMethod: "조립처에 요청",
         spec: "공통",
@@ -468,7 +467,6 @@
       lucide.createIcons();
     });
 
-    // QR Code Modal Handlers
     function openQrModal() {
       const pageUrl = window.location.href.split('#')[0];
       const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=10&data=${encodeURIComponent(pageUrl)}`;
@@ -497,6 +495,7 @@
       lucide.createIcons();
     }
 
+    // 표 렌더링 (특이사항 칼럼에 min-w-[320px] 적용하여 모바일 찌그러짐 차단)
     function renderGuideTable(data) {
       const tbody = document.getElementById('guideTableBody');
       if (!tbody) return;
@@ -511,21 +510,21 @@
         let handlingBadge = '';
         if (item.handlingType === 'cover' || item.handling.includes('가림')) {
           handlingBadge = `
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 whitespace-nowrap">
               <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-600 shrink-0"></i>
-              <span class="text-left leading-tight">바코드 가림<br><span class="text-[11px] font-semibold">(덮어 부착)</span></span>
+              <span class="text-left leading-tight">바코드 가림</span>
             </span>
           `;
         } else if (item.handlingType === 'safe' || item.handling.includes('가리지')) {
           handlingBadge = `
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 whitespace-nowrap">
               <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
-              <span class="text-left leading-tight">바코드가리지않음</span>
+              <span class="text-left leading-tight">바코드 가리지 않음</span>
             </span>
           `;
         } else {
           handlingBadge = `
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200 whitespace-nowrap">
               <i data-lucide="check" class="w-3.5 h-3.5 text-slate-500 shrink-0"></i>
               <span>해당 없음 (-)</span>
             </span>
@@ -538,14 +537,14 @@
           : 'bg-slate-100 text-slate-700 border border-slate-200 font-medium';
 
         let photoBadge = item.hasPhoto 
-          ? `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i> 완료</span>`
-          : `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200"><i data-lucide="camera" class="w-3.5 h-3.5 text-amber-600"></i> 촬영대기</span>`;
+          ? `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 whitespace-nowrap"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i> 완료</span>`
+          : `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200 whitespace-nowrap"><i data-lucide="camera" class="w-3.5 h-3.5 text-amber-600"></i> 촬영대기</span>`;
 
         return `
           <tr class="hover:bg-slate-50/80 transition-colors cursor-pointer group" onclick="openBuyerTutorial(${idx})">
-            <td class="py-3.5 px-4 text-center font-mono text-slate-400">${item.no}</td>
-            <td class="py-3.5 px-4 font-black text-sm text-slate-900 tracking-tight">${item.buyer}</td>
-            <td class="py-3.5 px-4">
+            <td class="py-3.5 px-4 text-center font-mono text-slate-400 whitespace-nowrap">${item.no}</td>
+            <td class="py-3.5 px-4 font-black text-sm text-slate-900 tracking-tight whitespace-nowrap">${item.buyer}</td>
+            <td class="py-3.5 px-4 whitespace-nowrap">
               <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold ${posBadgeClass}">
                 <i data-lucide="${posIcon}" class="w-3.5 h-3.5"></i>
                 <span>${item.pos}</span>
@@ -553,14 +552,15 @@
             </td>
             <td class="py-3.5 px-4">${handlingBadge}</td>
             <td class="py-3.5 px-4 text-slate-800 font-semibold whitespace-pre-line leading-relaxed">${item.outputMethod}</td>
-            <td class="py-3.5 px-4 text-center">
+            <td class="py-3.5 px-4 text-center whitespace-nowrap">
               <span class="inline-block px-2.5 py-1 rounded-lg text-xs ${specBadgeClass}">
                 ${item.spec}
               </span>
             </td>
-            <td class="py-3.5 px-4 text-slate-700 text-xs whitespace-pre-line leading-relaxed">${item.notes}</td>
-            <td class="py-3.5 px-4 text-center">${photoBadge}</td>
-            <td class="py-3.5 px-4 text-center">
+            <!-- 특이사항 열: min-w-[320px] 확보로 세로 찌그러짐 방지 -->
+            <td class="py-3.5 px-4 text-slate-700 text-xs whitespace-pre-line leading-relaxed min-w-[320px]">${item.notes}</td>
+            <td class="py-3.5 px-4 text-center whitespace-nowrap">${photoBadge}</td>
+            <td class="py-3.5 px-4 text-center whitespace-nowrap">
               <button onclick="event.stopPropagation(); openBuyerTutorial(${idx})" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-3.5 py-2 rounded-xl inline-flex items-center gap-1 shadow-sm transition group-hover:scale-105">
                 <span>가이드 보기</span>
                 <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
@@ -593,7 +593,7 @@
         } else if (item.buyer === 'JARIR') {
           statusBadge = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">📷 촬영대기</span>`;
         } else {
-          statusBadge = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">✔ 등록완료</span>`;
+          statusBadge = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">✔ 가리지 않기</span>`;
         }
 
         if (isSelected) {
@@ -601,7 +601,7 @@
             <div onclick="selectBuyerTab(${idx})" class="cursor-pointer bg-slate-900 text-white rounded-2xl p-4 border-2 border-blue-500 shadow-lg relative transition-all transform scale-[1.02]">
               <div class="flex justify-between items-start mb-2">
                 <span class="text-[11px] font-black px-1.5 py-0.5 bg-slate-800 rounded text-slate-300 font-mono">${item.code}</span>
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-700/60">✔ 등록완료</span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-700/60">✔ 가리지 않기</span>
               </div>
               <h3 class="text-base font-black tracking-tight mb-0.5">${item.buyer}</h3>
               <p class="text-xs text-slate-400 font-medium mb-3">${item.spec}</p>
@@ -645,7 +645,6 @@
       selectBuyerTab(newIdx);
     }
 
-    // Universal Cross-Device Smart Loader
     function loadSmartImage(imgElement, fallbackElement, baseName) {
       if (!baseName) {
         imgElement.classList.add('hidden');
@@ -876,7 +875,7 @@
             guideList = rawRows.map((row, idx) => {
               const buyerName = row['고객사 명'] || row['고객사명'] || `BUYER_${idx+1}`;
               const posStr = row['부착위치'] || row['부착 위치'] || '패키지 뒤';
-              const handlingStr = row['부착방식'] || row['부착 방식'] || '바코드 가리지않음';
+              const handlingStr = row['부착방식'] || row['부착 방식'] || '바코드 가리지 않음';
               const printStr = row['스티커 출력 방식'] || '조립처에 요청';
               const notesStr = row['특이사항'] || row['특이사항 및 작업 주의점'] || '';
 
@@ -899,7 +898,7 @@
                 spec: specStr,
                 notes: notesStr,
                 hasPhoto: !isJarir,
-                photoStatusText: isRoa ? '가림' : isJarir ? '촬영대기' : '등록완료',
+                photoStatusText: isRoa ? '가림' : isJarir ? '촬영대기' : '가리지 않음',
                 stickerImg: `${lowerName}_sticker.png`,
                 packageImg: `${lowerName}_package.png`
               };
