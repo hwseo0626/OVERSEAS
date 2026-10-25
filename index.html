@@ -243,9 +243,7 @@
               <div class="min-h-[250px] max-h-[260px] flex items-center justify-center p-2 rounded-xl bg-white border border-slate-200 overflow-hidden relative">
                 
                 <!-- Server Image from GitHub Repository -->
-                <img id="imgStickerPhoto" src="" alt="스티커 라벨 시안" class="hidden max-h-[240px] max-w-full object-contain rounded-lg shadow-sm"
-                  onload="this.classList.remove('hidden'); document.getElementById('graphicStickerDraft').classList.add('hidden');"
-                  onerror="this.classList.add('hidden'); document.getElementById('graphicStickerDraft').classList.remove('hidden');">
+                <img id="imgStickerPhoto" src="" alt="스티커 라벨 시안" class="hidden max-h-[240px] max-w-full object-contain rounded-lg shadow-sm">
 
                 <!-- Fallback Graphic Diagram (Displayed when image is missing) -->
                 <div id="graphicStickerDraft" class="w-64 bg-white rounded-2xl border-2 border-emerald-400 p-3.5 shadow-sm flex flex-col justify-between">
@@ -295,9 +293,7 @@
               <div class="min-h-[250px] max-h-[260px] flex items-center justify-center p-2 rounded-xl bg-white border border-slate-200 overflow-hidden relative">
                 
                 <!-- Server Image from GitHub Repository -->
-                <img id="imgPackagePhoto" src="" alt="실부착 사진" class="hidden max-h-[240px] max-w-full object-contain rounded-lg shadow-sm"
-                  onload="this.classList.remove('hidden'); document.getElementById('graphicPackageDraft').classList.add('hidden');"
-                  onerror="this.classList.add('hidden'); document.getElementById('graphicPackageDraft').classList.remove('hidden');">
+                <img id="imgPackagePhoto" src="" alt="실부착 사진" class="hidden max-h-[240px] max-w-full object-contain rounded-lg shadow-sm">
 
                 <!-- Fallback Package Diagram (Displayed when image is missing or waiting) -->
                 <div id="graphicPackageDraft" class="w-52 h-56 bg-white rounded-2xl border-2 border-slate-300 shadow-sm relative flex flex-col justify-between p-3">
@@ -342,7 +338,7 @@
 
   <!-- Master Data & Script -->
   <script>
-    // GitHub Repository Image Mapping (확장자가 jpg, png 둘 다 지원되도록 기본값 매핑)
+    // GitHub Repository Image Mapping with .png primary and smart fallback
     let guideList = [
       {
         no: 1,
@@ -356,8 +352,8 @@
         notes: "공통 스티커 부착\n※ 유니버셜 품목은 별도의 품목 스티커 출력 후 부착 필요",
         hasPhoto: true,
         photoStatusText: "등록완료",
-        stickerImg: "dro_sticker.jpg",
-        packageImg: "dro_package.jpg"
+        stickerImg: "dro_sticker.png",
+        packageImg: "dro_package.png"
       },
       {
         no: 2,
@@ -371,8 +367,8 @@
         notes: "품목 별 스티커 출력 후 부착\n※ 신규 품목 입고 시 고객사에 이미지 파일 사전 요청 필수",
         hasPhoto: true,
         photoStatusText: "등록완료",
-        stickerImg: "element_sticker.jpg",
-        packageImg: "element_package.jpg"
+        stickerImg: "element_sticker.png",
+        packageImg: "element_package.png"
       },
       {
         no: 3,
@@ -386,8 +382,8 @@
         notes: "품목 별 스티커 출력 후 부착 (기존 바코드 완벽 가림)\n※ 신규 품목 입고 시 고객사에 바코드 데이터 사전 요청 필수",
         hasPhoto: true,
         photoStatusText: "가림",
-        stickerImg: "roa_sticker.jpg",
-        packageImg: "roa_package.jpg"
+        stickerImg: "roa_sticker.png",
+        packageImg: "roa_package.png"
       },
       {
         no: 4,
@@ -401,8 +397,8 @@
         notes: "공통 스티커 부착 (※ 실리콘밴드, 캐링케이스 등 특정 품목은 별도의 스티커 추가 부착 必)\n※ 실물 스티커 사진 촬영 후 추후 시스템 등록 예정",
         hasPhoto: false,
         photoStatusText: "촬영대기",
-        stickerImg: "jarir_sticker.jpg",
-        packageImg: "jarir_package.jpg"
+        stickerImg: "jarir_sticker.png",
+        packageImg: "jarir_package.png"
       },
       {
         no: 5,
@@ -416,8 +412,8 @@
         notes: "공통스티커 부착 (패키지 전면 지정 위치 부착)",
         hasPhoto: true,
         photoStatusText: "등록완료",
-        stickerImg: "taicheong_sticker.jpg",
-        packageImg: "taicheong_package.jpg"
+        stickerImg: "taicheong_sticker.png",
+        packageImg: "taicheong_package.png"
       }
     ];
 
@@ -576,6 +572,7 @@
           `;
         }
       }).join('');
+
       lucide.createIcons();
     }
 
@@ -592,7 +589,48 @@
       selectBuyerTab(newIdx);
     }
 
-    // Render Detailed SOP Tutorial & Link Images from GitHub
+    // Helper: Smart Image Loader with .png, .jpg, and uppercase fallbacks
+    function loadSmartImage(imgElement, fallbackElement, baseName) {
+      if (!baseName) {
+        imgElement.classList.add('hidden');
+        fallbackElement.classList.remove('hidden');
+        return;
+      }
+
+      const stem = baseName.replace(/\.[^/.]+$/, "");
+      const candidateUrls = [
+        `${stem}.png`,
+        `${stem}.PNG`,
+        `${stem}.jpg`,
+        `${stem}.jpeg`,
+        `${stem}.JPG`,
+        baseName
+      ];
+
+      let attemptIndex = 0;
+
+      function tryNext() {
+        if (attemptIndex < candidateUrls.length) {
+          const nextSrc = candidateUrls[attemptIndex++];
+          imgElement.src = nextSrc;
+        } else {
+          // All attempts failed: show fallback graphic diagram
+          imgElement.classList.add('hidden');
+          fallbackElement.classList.remove('hidden');
+        }
+      }
+
+      imgElement.onload = function() {
+        imgElement.classList.remove('hidden');
+        fallbackElement.classList.add('hidden');
+      };
+
+      imgElement.onerror = tryNext;
+
+      tryNext();
+    }
+
+    // Render Detailed SOP Tutorial
     function renderTutorial(idx) {
       const item = guideList[idx];
       if (!item) return;
@@ -646,7 +684,7 @@
       document.getElementById('sopPosTag').innerText = `부착면: ${item.pos}`;
       document.getElementById('sopNotesText').innerText = item.notes;
 
-      // 1. Sticker Photo Load (GitHub Repository Path)
+      // 1. Sticker Photo Setup
       document.getElementById('specLabelBadge').innerText = item.spec;
       document.getElementById('stickerFileTag').innerText = item.stickerImg;
       
@@ -654,23 +692,15 @@
       const graphicStickerEl = document.getElementById('graphicStickerDraft');
       const stickerNotice = document.getElementById('stickerStatusNotice');
 
-      // Set fallback diagram content first
       document.getElementById('stickerBuyerName').innerText = item.buyer;
       document.getElementById('stickerSizeTag').innerText = item.spec;
       document.getElementById('stickerFootPrint').innerText = item.outputMethod.split('\n')[0];
       document.getElementById('stickerFootPos').innerText = item.handling.includes('가림') ? '바코드 은폐용' : '여백 부착용';
+      stickerNotice.innerText = `서버 사진 연동: ${item.stickerImg}`;
 
-      if (item.stickerImg) {
-        imgStickerEl.src = item.stickerImg;
-        stickerNotice.innerText = `서버 사진 연동: ${item.stickerImg}`;
-      } else {
-        imgStickerEl.src = '';
-        imgStickerEl.classList.add('hidden');
-        graphicStickerEl.classList.remove('hidden');
-        stickerNotice.innerText = '출력 라벨 기본 시안';
-      }
+      loadSmartImage(imgStickerEl, graphicStickerEl, item.stickerImg);
 
-      // 2. Package Photo Load (GitHub Repository Path)
+      // 2. Package Photo Setup
       document.getElementById('sideLabelBadge').innerText = item.pos;
       document.getElementById('packageFileTag').innerText = item.packageImg;
 
@@ -678,7 +708,6 @@
       const graphicPackageEl = document.getElementById('graphicPackageDraft');
       const packageNotice = document.getElementById('packageStatusNotice');
 
-      // Set fallback package diagram
       document.getElementById('mockSideTitle').innerText = `패키지 ${isFront ? '전면 (FRONT)' : '후면 (BACK)'}`;
       const mockSticker = document.getElementById('mockTargetSticker');
       const mockStickerName = document.getElementById('mockTargetStickerName');
@@ -706,14 +735,12 @@
         }
       }
 
-      if (item.packageImg && item.hasPhoto) {
-        imgPackageEl.src = item.packageImg;
-        packageNotice.innerText = `서버 사진 연동: ${item.packageImg}`;
+      if (item.buyer === 'JARIR') {
+        packageNotice.innerText = '실물 사진 촬영 대기 중 (추후 연동)';
+        loadSmartImage(imgPackageEl, graphicPackageEl, '');
       } else {
-        imgPackageEl.src = '';
-        imgPackageEl.classList.add('hidden');
-        graphicPackageEl.classList.remove('hidden');
-        packageNotice.innerText = item.buyer === 'JARIR' ? '실물 사진 촬영 대기 중' : '실물 패키지 도식도';
+        packageNotice.innerText = `서버 사진 연동: ${item.packageImg}`;
+        loadSmartImage(imgPackageEl, graphicPackageEl, item.packageImg);
       }
 
       lucide.createIcons();
@@ -813,8 +840,8 @@
                 notes: notesStr,
                 hasPhoto: !isJarir,
                 photoStatusText: isRoa ? '가림' : isJarir ? '촬영대기' : '등록완료',
-                stickerImg: `${lowerName}_sticker.jpg`,
-                packageImg: `${lowerName}_package.jpg`
+                stickerImg: `${lowerName}_sticker.png`,
+                packageImg: `${lowerName}_package.png`
               };
             });
 
