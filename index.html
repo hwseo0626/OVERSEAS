@@ -16,6 +16,11 @@
       50% { border-color: #f87171; box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
     }
     .label-target-box { animation: pulse-border 1.8s infinite; }
+    @media print {
+      body * { visibility: hidden; }
+      #qrPrintArea, #qrPrintArea * { visibility: visible; }
+      #qrPrintArea { position: absolute; left: 0; top: 0; width: 100%; }
+    }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans">
@@ -37,6 +42,12 @@
       </div>
 
       <div class="flex items-center gap-2">
+        <!-- 태블릿 작업자용 QR 코드 팝업 버튼 -->
+        <button onclick="openQrModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shadow-sm">
+          <i data-lucide="qr-code" class="w-4 h-4"></i>
+          <span>QR 접속</span>
+        </button>
+
         <button onclick="downloadSampleTemplate()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
           <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-400"></i>
           <span>양식 다운</span>
@@ -174,7 +185,7 @@
             </div>
           </div>
 
-          <!-- Priority Inspection Banner (1줄 출력 + 미은폐 보존 삭제 완료) -->
+          <!-- Priority Inspection Banner (1줄 표기, 미은폐 보존 뱃지 삭제됨) -->
           <div id="priorityBanner" class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center gap-3.5">
             <div id="priorityIconBox" class="w-9 h-9 rounded-xl bg-emerald-500 text-white flex items-center justify-center shrink-0">
               <i id="priorityIcon" data-lucide="check" class="w-5 h-5"></i>
@@ -188,7 +199,7 @@
             </div>
           </div>
 
-          <!-- Output Method & Caution Grid (특이사항 폰트 크기 확대 적용) -->
+          <!-- Output Method & Caution Grid -->
           <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
             <div class="md:col-span-5 p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5 flex flex-col justify-between">
               <div>
@@ -322,6 +333,53 @@
 
   </main>
 
+  <!-- QR 접속 모달 (태블릿 작업자용) -->
+  <div id="qrModal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-200 animate-in fade-in zoom-in duration-200">
+      <div class="p-5 bg-slate-900 text-white flex justify-between items-center">
+        <div class="flex items-center gap-2.5">
+          <div class="bg-indigo-600 p-1.5 rounded-lg">
+            <i data-lucide="qr-code" class="w-5 h-5 text-white"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold">현장 태블릿/모바일 QR 접속</h3>
+            <p class="text-[11px] text-slate-400">카메라로 비추면 바로 열립니다</p>
+          </div>
+        </div>
+        <button onclick="closeQrModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-6 text-center space-y-4" id="qrPrintArea">
+        <div class="inline-block p-4 bg-white rounded-2xl border-2 border-indigo-100 shadow-inner">
+          <!-- QR Code Image Generator -->
+          <img id="qrCodeImage" src="" alt="접속 QR 코드" class="w-52 h-52 mx-auto rounded-lg">
+        </div>
+
+        <div>
+          <span class="text-xs font-mono font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 inline-block">
+            https://hwseo0626.github.io/OVERSEAS/
+          </span>
+          <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+            포장 작업대 모니터 옆이나 벽면에 인쇄해 부착해 두시면<br>
+            작업자가 카메라로 비춰 바로 가이드를 확인할 수 있습니다.
+          </p>
+        </div>
+      </div>
+
+      <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-between items-center">
+        <button onclick="window.print()" class="text-slate-700 hover:text-slate-900 text-xs font-bold flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-300 hover:bg-white transition shadow-sm">
+          <i data-lucide="printer" class="w-4 h-4 text-slate-500"></i>
+          <span>작업대 부착용 인쇄</span>
+        </button>
+        <button onclick="closeQrModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2 rounded-xl text-xs font-bold transition shadow-sm">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Master Data & Universal Cross-Device Script -->
   <script>
     let guideList = [
@@ -330,10 +388,10 @@
         code: "01",
         buyer: "D-R-O",
         pos: "패키지 뒤",
-        handling: "바코드\n가리지않음",
+        handling: "바코드 가리지않음",
         handlingType: "safe",
         outputMethod: "조립처에 요청",
-        spec: "공통",
+        spec: "공통 스티커",
         notes: "공통 스티커 부착\n※ 유니버셜 품목은 별도의 품목 스티커 출력 후 부착 필요",
         hasPhoto: true,
         photoStatusText: "등록완료",
@@ -345,7 +403,7 @@
         code: "02",
         buyer: "ELEMENT",
         pos: "패키지 뒤",
-        handling: "바코드\n가리지않음",
+        handling: "바코드 가리지않음",
         handlingType: "safe",
         outputMethod: "아이라벨 65 X 44\n(품목별 이미지파일 불러와 출력)",
         spec: "65 X 44",
@@ -360,7 +418,7 @@
         code: "03",
         buyer: "ROA",
         pos: "패키지 뒤",
-        handling: "바코드 가림",
+        handling: "바코드 가림 (덮어 부착)",
         handlingType: "cover",
         outputMethod: "아이라벨 45 X 35\n(품목별 데이터파일 불러와 출력)",
         spec: "45 X 35",
@@ -375,10 +433,10 @@
         code: "04",
         buyer: "JARIR",
         pos: "패키지 뒤",
-        handling: "바코드\n가리지않음",
+        handling: "바코드 가리지않음",
         handlingType: "safe",
         outputMethod: "조립처에 요청",
-        spec: "공통",
+        spec: "공통 스티커",
         notes: "공통 스티커 부착 (※ 실리콘밴드, 캐링케이스 등 특정 품목은 별도의 스티커 추가 부착 必)\n※ 실물 스티커 사진 촬영 후 추후 시스템 등록 예정",
         hasPhoto: false,
         photoStatusText: "촬영대기",
@@ -393,7 +451,7 @@
         handling: "해당 없음 (-)",
         handlingType: "none",
         outputMethod: "조립처에 요청",
-        spec: "공통",
+        spec: "공통 스티커",
         notes: "공통스티커 부착 (패키지 전면 지정 위치 부착)",
         hasPhoto: true,
         photoStatusText: "등록완료",
@@ -409,6 +467,19 @@
       renderBuyerCardsNav();
       lucide.createIcons();
     });
+
+    // QR Code Modal Handlers
+    function openQrModal() {
+      const pageUrl = window.location.href.split('#')[0];
+      const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=10&data=${encodeURIComponent(pageUrl)}`;
+      document.getElementById('qrCodeImage').src = qrApiUrl;
+      document.getElementById('qrModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeQrModal() {
+      document.getElementById('qrModal').classList.add('hidden');
+    }
 
     function switchView(viewName) {
       const viewTable = document.getElementById('viewTable');
@@ -442,7 +513,7 @@
           handlingBadge = `
             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
               <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-600 shrink-0"></i>
-              <span class="text-left leading-tight">바코드 가림</span>
+              <span class="text-left leading-tight">바코드 가림<br><span class="text-[11px] font-semibold">(덮어 부착)</span></span>
             </span>
           `;
         } else if (item.handlingType === 'safe' || item.handling.includes('가리지')) {
@@ -574,9 +645,7 @@
       selectBuyerTab(newIdx);
     }
 
-    // =========================================================================
-    // 핵심 개선: 어떤 태블릿/스마트폰에서도 사진이 100% 뜨도록 만드는 Universal Loader
-    // =========================================================================
+    // Universal Cross-Device Smart Loader
     function loadSmartImage(imgElement, fallbackElement, baseName) {
       if (!baseName) {
         imgElement.classList.add('hidden');
@@ -586,11 +655,8 @@
 
       const stem = baseName.replace(/\.[^/.]+$/, "");
       const hostUrl = "https://hwseo0626.github.io/OVERSEAS/";
-      
-      // 모바일 캐시 방지용 파라미터 (새로고침 시 서버에서 항상 새 이미지를 로드)
       const cacheBust = "?t=" + new Date().getTime();
 
-      // 태블릿/스마트폰/PC 어디서든 절대 URL과 상대 URL, 대소문자 확장자를 모두 전수 탐색
       const candidateUrls = [
         `${hostUrl}${stem}.png${cacheBust}`,
         `${stem}.png${cacheBust}`,
@@ -609,7 +675,6 @@
           const nextSrc = candidateUrls[attemptIndex++];
           imgElement.src = nextSrc;
         } else {
-          // 전수 탐색 실패 시에만 도식도 표출
           imgElement.classList.add('hidden');
           fallbackElement.classList.remove('hidden');
         }
