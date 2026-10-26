@@ -599,17 +599,16 @@
         if (isSelected) {
           return `
             <div onclick="selectBuyerTab(${idx})" class="cursor-pointer bg-slate-900 text-white rounded-2xl p-4 border-2 border-blue-500 shadow-lg relative transition-all transform scale-[1.02]">
-              <div class="flex justify-between items-start mb-2">
-                <span class="text-[11px] font-black px-1.5 py-0.5 bg-slate-800 rounded text-slate-300 font-mono">${item.code}</span>
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-700/60">✔ 가리지 않기</span>
-              </div>
+            <div class="flex justify-between items-start mb-2">
+        <span class="text-[11px] font-black px-1.5 py-0.5 bg-slate-800 rounded text-slate-300 font-mono">${item.code}</span>
+        ${statusBadge}
+      </div>
               <h3 class="text-base font-black tracking-tight mb-0.5">${item.buyer}</h3>
               <p class="text-xs text-slate-400 font-medium mb-3">${item.spec}</p>
               <div class="flex items-center gap-1 text-[11px] font-semibold text-slate-300">
                 <i data-lucide="layers" class="w-3.5 h-3.5 text-blue-400"></i>
                 <span>${posText}</span>
               </div>
-            </div>
           `;
         } else {
           return `
