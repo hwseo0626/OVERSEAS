@@ -795,13 +795,9 @@
         }
       }
 
-      if (item.buyer === 'JARIR') {
-        packageNotice.innerText = '실물 사진 촬영 대기 중 (추후 연동)';
-        loadSmartImage(imgPackageEl, graphicPackageEl, '');
-      } else {
-        packageNotice.innerText = `서버 사진 연동: ${item.packageImg}`;
-        loadSmartImage(imgPackageEl, graphicPackageEl, item.packageImg);
-      }
+      // [수정 후 코드]
+packageNotice.innerText = `서버 사진 연동: ${item.packageImg}`;
+loadSmartImage(imgPackageEl, graphicPackageEl, item.packageImg);
 
       lucide.createIcons();
     }
