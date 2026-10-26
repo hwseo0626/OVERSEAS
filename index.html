@@ -437,7 +437,7 @@
         outputMethod: "조립처에 요청",
         spec: "공통",
         notes: "공통 스티커 부착\n※ 실리콘밴드, 캐링케이스등 특정 품목은 \n별도의 업체스티커 추가 부착 必",
-        hasPhoto: false,
+        hasPhoto: true,
         photoStatusText: "등록완료",
         stickerImg: "jarir_sticker.png",
         packageImg: "jarir_package.png"
@@ -593,7 +593,7 @@
         } else if (item.buyer === 'JARIR') {
           statusBadge = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">✔ 완료</span>`;
         } else {
-          statusBadge = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">✔ 가리지 않기</span>`;
+          statusBadge = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">⚠ 가림</span>`;
         }
 
         if (isSelected) {
