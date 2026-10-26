@@ -438,7 +438,7 @@
         spec: "공통",
         notes: "공통 스티커 부착\n※ 실리콘밴드, 캐링케이스등 특정 품목은 \n별도의 업체스티커 추가 부착 必",
         hasPhoto: false,
-        photoStatusText: "촬영대기",
+        photoStatusText: "등록완료",
         stickerImg: "jarir_sticker.png",
         packageImg: "jarir_package.png"
       },
@@ -538,7 +538,7 @@
 
         let photoBadge = item.hasPhoto 
           ? `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 whitespace-nowrap"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i> 완료</span>`
-          : `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200 whitespace-nowrap"><i data-lucide="camera" class="w-3.5 h-3.5 text-amber-600"></i> 촬영대기</span>`;
+          : `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200 whitespace-nowrap"><i data-lucide="camera" class="w-3.5 h-3.5 text-amber-600"></i>대기</span>`;
 
         return `
           <tr class="hover:bg-slate-50/80 transition-colors cursor-pointer group" onclick="openBuyerTutorial(${idx})">
@@ -591,7 +591,7 @@
         if (item.buyer === 'ROA') {
           statusBadge = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 border border-rose-200">⚠ 가림</span>`;
         } else if (item.buyer === 'JARIR') {
-          statusBadge = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">📷 촬영대기</span>`;
+          statusBadge = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">✔ 완료</span>`;
         } else {
           statusBadge = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">✔ 가리지 않기</span>`;
         }
@@ -894,7 +894,7 @@ loadSmartImage(imgPackageEl, graphicPackageEl, item.packageImg);
                 spec: specStr,
                 notes: notesStr,
                 hasPhoto: !isJarir,
-                photoStatusText: isRoa ? '가림' : isJarir ? '촬영대기' : '가리지 않음',
+                photoStatusText: isRoa ? '가림' : isJarir ? '완료' : '가리지 않음',
                 stickerImg: `${lowerName}_sticker.png`,
                 packageImg: `${lowerName}_package.png`
               };
